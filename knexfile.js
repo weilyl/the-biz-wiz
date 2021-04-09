@@ -2,8 +2,6 @@
 
 require("dotenv").config();
 
-console.log(process.env.USER);
-console.log(process.env.PASSWORD);
 module.exports = {
   development: {
     client: "postgresql",
