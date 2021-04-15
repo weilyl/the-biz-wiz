@@ -29,4 +29,12 @@ describe("Businesses TESTS", () => {
     await server.get("/business/find/search=Testing").expect(200);
     done();
   });
+
+  it("Login as a business", (done) => {
+    const user = {
+      user_name: "Test",
+      password: "bizzzz"
+    };
+    return server.post("business/login").send(user).expect(201, done());
+  })
 });
