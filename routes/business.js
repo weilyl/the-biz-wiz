@@ -34,18 +34,18 @@ const {
 router.get("/all", getAllBusinesses);
 
 // business own profile
-router.get("/:id", getABusiness);
+router.get("/home/:id", getABusiness);
 
 // search engine for business name, description
-router.get("/search?:query", getBusinessByName);
+router.get("/find/?search=:query", getBusinessByName);
 
 // get all businesses by type
-router.get("/:type");
+router.get("/category/:type");
 
 // get all businesses by location
 
 // get all businesses by type & location
-router.get("/:type/?rad=:distance");
+router.get("/category/:type/distance/?rad=:distance");
 
 // register a new business
 router.post("/register", createBusiness);
@@ -54,23 +54,24 @@ router.post("/register", createBusiness);
 router.post("/login");
 
 // business makes a post
-router.post("/createPost", createPost);
+router.post("/home/create-post", createPost);
 
 // business comments on a post
-router.post("/:postId", createComment);
+router.post("/post/:postId/comment", createComment);
 
 // business updates a post
-router.put("/:postId", updatePost);
+router.put("/home/posts/:postId", updatePost);
+
 // business updates a comment
-router.put("/:commentId", updateComment);
+router.put("/post/comment/:commentId", updateComment);
 
 // delete a business
-router.delete("/:id/delete", deleteBusiness);
+router.delete("/home/delete-business/:id", deleteBusiness);
 
 // business deletes a post
-router.delete("/:postId", deletePost);
+router.delete("/post/:postId/remove", deletePost);
 
 // business deletes a comment it made or a comment on a post it made
-router.delete("/:postId/:commentsId", deleteComment);
+router.delete("/post/:postId/comment/:commentsId", deleteComment);
 
 module.exports = router;
