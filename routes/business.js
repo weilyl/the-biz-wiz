@@ -115,6 +115,9 @@ router.get("/all", getAllBusinesses);
 // business own profile
 router.get("/home/:id", getABusiness);
 
+// update business profile
+route.put("/home/:id", updateBusiness);
+
 // get one post belonging to a business (& comments on that post
 router.get("/post/:postId", getAPost);
 
