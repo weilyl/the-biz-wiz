@@ -24,10 +24,12 @@ async function locateBusiness(req, res) {
 }
 //get business by name
 async function getBusinessByName(req, res) {
-  const names = JSON.stringify(req.params.business_name);
   try {
-    await db.any("SELECT * FROM businesses WHERE business_name=$1", names);
-    return res.json(names);
+    const results = await db.any(
+      "SELECT * FROM businesses WHERE business_name = ${query}",
+      req.params
+    );
+    return res.json(results);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -46,12 +48,9 @@ async function getABusiness(req, res) {
 async function createBusiness(req, res) {
   try {
     await db.none(
-      "INSERT INTO businesses (business_name,user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo})",
+      "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo})",
       req.body
     );
-    return res.json({
-      message: "success",
-    });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -101,4 +100,3 @@ module.exports = {
   updateBusiness,
   deleteBusiness,
 };
-
