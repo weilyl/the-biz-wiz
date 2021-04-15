@@ -75,4 +75,13 @@ async function updatePost(req, res) {
     res.status(500).send(err);
   }
 }
-module.exports = Posts;
+
+module.exports = {
+  getAPost,
+  getBusinessPosts,
+  getEveryPost,
+  createPost,
+  updatePost,
+  deletePost,
+};
+

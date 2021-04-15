@@ -90,4 +90,14 @@ async function deleteComment(req, res) {
     res.status(500).send(err);
   }
 }
-module.exports = Comments;
+
+module.exports = {
+  getAComment,
+  getAllComments,
+  getBusinessComments,
+  getPostComments,
+  createComment,
+  updateComment,
+  deleteComment,
+};
+

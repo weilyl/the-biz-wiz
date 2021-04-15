@@ -92,4 +92,13 @@ async function deleteBusiness(req, res) {
   }
 }
 
-module.exports = Business;
+module.exports = {
+  getAllBusinesses,
+  locateBusiness,
+  getBusinessByName,
+  getABusiness,
+  createBusiness,
+  updateBusiness,
+  deleteBusiness,
+};
+
