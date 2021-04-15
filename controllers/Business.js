@@ -1,3 +1,4 @@
+require('dotenv').config();
 const db = require("../db");
 
 //get all businesses from database
@@ -9,6 +10,7 @@ async function getAllBusinesses(req, res) {
     res.status(500).send(err);
   }
 }
+
 //get business by location
 async function locateBusiness(req, res) {
   const address = JSON.stringify(req.params.address);
@@ -22,6 +24,7 @@ async function locateBusiness(req, res) {
     res.status(500).json(err);
   }
 }
+
 //get business by name
 async function getBusinessByName(req, res) {
   try {
@@ -34,6 +37,7 @@ async function getBusinessByName(req, res) {
     res.status(500).json(err);
   }
 }
+
 //get a single business from table matching id
 async function getABusiness(req, res) {
   const id = parseInt(req.params.id, 10);
@@ -44,6 +48,7 @@ async function getABusiness(req, res) {
     res.status(500).json(err);
   }
 }
+
 //create one business and add to table
 async function createBusiness(req, res) {
   try {
@@ -55,6 +60,7 @@ async function createBusiness(req, res) {
     res.status(500).send(err);
   }
 }
+
 //update single business from database
 async function updateBusiness(req, res) {
   const id = parseInt(req.params.id, 10);
@@ -78,6 +84,7 @@ async function updateBusiness(req, res) {
     res.status(500).json(err);
   }
 }
+
 //delete a business from database
 async function deleteBusiness(req, res) {
   const id = parseInt(req.params.id, 10);

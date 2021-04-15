@@ -1,4 +1,5 @@
 const db = require("../db");
+const {getPostComments} = require ('./Comments');
 
 //get all posts in database
 async function getEveryPost(req, res) {
@@ -29,6 +30,7 @@ async function getAPost(req, res) {
   const post_id = parseInt(req.params.id, 10);
   try {
     const post = await db.one("SELECT * FROM posts WHERE id=$1", post_id);
+    getPostComments;
     return res.json(post);
   } catch (err) {
     res.status(500).send(err);
