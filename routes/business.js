@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require("express");
 const router = new Router();
 
 // business related routes
@@ -8,16 +8,16 @@ const router = new Router();
 // business login
 
 // business own profile
-router.get('/');
+router.get("/");
 
 // get all businesses
-router.get('/all');
+router.get("/all");
 
 // get all businesses by type
-router.get('/:type');
+router.get("/:type");
 
 // get all businesses by type & location
-router.get('/:type/rad=?:distance');
+router.get("/:type/rad=?:distance");
 
 // delete a business
 
