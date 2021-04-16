@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const db = require("../db");
 const bcrypt = require("bcrypt");
 
@@ -53,6 +53,7 @@ async function getABusiness(req, res) {
 //create one business and add to table
 async function createBusiness(req, res) {
   try {
+
     console.log("JEST YOU'RE RUDE inside")
     const {password} = req.body;
   
@@ -63,15 +64,16 @@ async function createBusiness(req, res) {
     let user = req.body;
     user["password"] = hashedPassword;
 
-
     await db.none(
       "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo})",
       user
     );
 
     return res.status(200).json({
+
       message: "business account registered"
     })
+
   } catch (err) {
     res.status(500).send(err);
   }
