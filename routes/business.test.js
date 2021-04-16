@@ -3,7 +3,7 @@ const request = require("supertest");
 const server = request(app);
 
 describe("Businesses TESTS", () => {
-  it.only("Register A Business", async (done) => {
+  it("Register A Business", async (done) => {
     const data = {
       "business_name": "Testing with pro api 005",
       "user_name": "Testing 005",
@@ -34,11 +34,15 @@ describe("Businesses TESTS", () => {
     done();
   });
 
-  it("Login as a business", async (done) => {
+  it.only("Login as a business", async (done) => {
     const user = {
-      user_name: "Test",
-      password: "bizzzz"
+      user_name: "Testing 006",
+      password: "biz_"
     };
-    await server.post("/business/login").send(user).expect(200, done());
+    await server
+      .post("/business/login")
+      .send(user)
+      .expect(200) 
+    done();
   })
 });

@@ -56,33 +56,50 @@ router.post("/register", createBusiness);
 
 // business login
 router.post("/login", async (req, res) => {
-  const { user_name, password } = req.body
+  const { password } = req.body
 
-  const user = await db.any('SELECT * FROM businesses WHERE user_name=${user_name}', user_name);
+  const {exists} = await db.one('SELECT EXISTS(SELECT * FROM businesses WHERE user_name=${user_name})', req.body)
 
-  if (!user) {
-    return res.json({
+  let user;
+
+  if (!exists) {
+    return res.status(404).json({
       message: "No user found with that user name"
     })
+  } else {
+    user = await db.one('SELECT * FROM businesses WHERE user_name=${user_name}', req.body)
   }
 
   let match;
 
   try {
+
     match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.status(404).json({
+        message: "Invalid Credentials"
+      })
+    } else {
+      req.session.user = user;
+
+      return res.status(200).json({
+        message: "Logged in"
+      })
+    }
+
   } catch (err) {
-    return res.json(err)
+    return res.status(500).json(err)
   }
-
-  if (!match) {
-    return res.json({
-      message: "Invalid Credientials"
-    })
-  }
-
-  req.session.user = user;
 
 });
+
+router.get("/logout", async (req, res) => {
+  req.session.user = {};
+  return res.status(200).json({
+    message: "Logged out"
+  })
+})
 
 // get all businesses
 router.get("/all", getAllBusinesses);
