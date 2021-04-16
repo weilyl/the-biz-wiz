@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const router = new Router();
+const express = require("express");
+const router = new express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
@@ -35,6 +35,7 @@ const {
   deletePost,
 } = require("../controllers/Posts");
 
+//middleware
 router.use(
   session({
     secret: process.env.SECRET,
@@ -43,6 +44,13 @@ router.use(
     name: "sessionName",
   })
 );
+
+router.use(express.json());
+
+router.use((req, res, next) => {
+  console.log("business router");
+  next();
+});
 
 // business related routes
 
