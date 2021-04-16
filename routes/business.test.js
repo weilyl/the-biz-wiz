@@ -34,7 +34,7 @@ describe("Businesses TESTS", () => {
     done();
   });
 
-  it.only("Login as a business", async (done) => {
+  it("Login as a business", async (done) => {
     const user = {
       user_name: "Testing 006",
       password: "biz_"
