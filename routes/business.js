@@ -45,39 +45,14 @@ router.use(
 
 // business related routes
 
-router.get("/", (req, res) => {
-  req.session.user = {
+// router.get("/", (req, res) => {
+//   req.session.user = {
     
-  }
-})
+//   }
+// })
 
 // register a new business
-router.post("/register", async (req, res) => {
-  const {
-    business_name,
-    user_name,
-    password
-  } = req.body;
-
-  let hashedPassword;
-
-  try {
-    const saltRounds = 10;
-    hashedPassword = await bcrypt.hash(password, saltRounds);
-  } catch (err) {
-    return res.status(500).json(err)
-  }
-
-  const user = {
-    user_name,
-    business_name,
-    password: hashedPassword
-  }
-
-  createBusiness(user);
-
-  req.session.user = user;
-});
+router.post("/register", createBusiness);
 
 // business login
 router.post("/login", async (req, res) => {
@@ -116,7 +91,7 @@ router.get("/all", getAllBusinesses);
 router.get("/home/:id", getABusiness);
 
 // update business profile
-route.put("/home/:id", updateBusiness);
+router.put("/home/:id", updateBusiness);
 
 // get one post belonging to a business (& comments on that post
 router.get("/post/:postId", getAPost);
