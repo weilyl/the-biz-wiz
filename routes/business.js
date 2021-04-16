@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const router = new Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const session = require('express-session');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const session = require("express-session");
 const db = require("../db");
 
 const {
@@ -42,7 +42,7 @@ router.use(
     saveUninitialized: false,
     name: "sessionName",
   })
-)
+);
 
 // business related routes
 

@@ -25,7 +25,7 @@ describe("Businesses TESTS", () => {
   });
 
   it("Get Business by Id", async (done) => {
-    await server.get("/business/home/2").expect(200);
+    await server.get("/business/home/1").expect(200);
     done();
   });
 
@@ -36,8 +36,8 @@ describe("Businesses TESTS", () => {
 
   it.only("Login as a business", async (done) => {
     const user = {
-      user_name: "Testing 006",
-      password: "biz_"
+      user_name: "Testing 007",
+      password: "biz_ 005",
     };
     await server
       .post("/business/login")
@@ -45,4 +45,23 @@ describe("Businesses TESTS", () => {
       .expect(200) 
     done();
   })
+
+  it("Updates A Businesses info", async (done) => {
+    const data = {
+      business_name: "Testing with pro api 12308",
+      user_name: "Testing 0128",
+      password: "biz_ 005",
+      address: "busy street",
+      type: "small biz",
+      logo: "img.com",
+    };
+    await server.put("/business/home/3").send(data).expect(200);
+    done();
+  });
+
+  it("Deletes a Business", async (done) => {
+    await server.delete("/business/home/delete-business/13");
+    done();
+  });
+
 });
