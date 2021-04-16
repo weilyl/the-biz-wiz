@@ -50,8 +50,8 @@ router.use(
 router.post("/register", createBusiness);
 
 // business login
-router.post("/login", loginBusiness);
 
+router.post("/login", loginBusiness);
 
 router.get("/logout", async (req, res) => {
   req.session.user = {};
