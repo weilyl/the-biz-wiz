@@ -5,15 +5,18 @@ const server = request(app);
 describe("Businesses TESTS", () => {
   it("Register A Business", async (done) => {
     const data = {
-      business_name: "Testing with pro api 0asfasf07",
-      user_name: "Testing 0asfasfa07",
-      password: "biz_ 005",
-      address: "biz st",
-      type: "biz",
-      logo: "img.com",
+      "business_name": "Testing with pro api 005",
+      "user_name": "Testing 005",
+      "password": "biz_ 005",
+      "address": "biz st",
+      "type": "biz",
+      "logo": "img.com",
     };
-    await server.post("/business/register").send(data).expect(200);
-    done();
+    await server
+      .post("/business/register")
+      .send(data)
+      .expect(200)
+      done();
   });
 
   it("Get all Businesses", async (done) => {
@@ -31,14 +34,17 @@ describe("Businesses TESTS", () => {
     done();
   });
 
-  it("Login as a business", async (done) => {
+  it.only("Login as a business", async (done) => {
     const user = {
       user_name: "Testing 007",
       password: "biz_ 005",
     };
-    await server.post("/business/login").send(user).expect(200);
+    await server
+      .post("/business/login")
+      .send(user)
+      .expect(200) 
     done();
-  });
+  })
 
   it("Updates A Businesses info", async (done) => {
     const data = {
@@ -57,4 +63,5 @@ describe("Businesses TESTS", () => {
     await server.delete("/business/home/delete-business/13");
     done();
   });
+
 });
