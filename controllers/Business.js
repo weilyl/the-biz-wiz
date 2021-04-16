@@ -1,7 +1,6 @@
 require('dotenv').config();
 const db = require("../db");
 const bcrypt = require("bcrypt");
-// const session = require('express-session');
 
 //get all businesses from database
 async function getAllBusinesses(req, res) {
@@ -55,24 +54,15 @@ async function getABusiness(req, res) {
 async function createBusiness(req, res) {
   try {
     console.log("JEST YOU'RE RUDE inside")
-    const {
-      business_name,
-      user_name,
-      password
-    } = req.body;
+    const {password} = req.body;
   
     let hashedPassword;
     const saltRounds = 10;
     hashedPassword = await bcrypt.hash(password, saltRounds);
   
-    // req.body.password = hashedPassword;
     let user = req.body;
-  
     user["password"] = hashedPassword;
 
-    // user = JSON.stringify(user);
-  
-    // req.session.user = user;
 
     await db.none(
       "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo})",
