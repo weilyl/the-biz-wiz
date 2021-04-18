@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const db = require("../db");
+const {authorize} = require("../middleware/business-auth");
 
 const {
   getAllBusinesses,
@@ -59,7 +60,7 @@ router.post("/register", createBusiness);
 
 // business login
 
-router.post("/login", loginBusiness);
+router.post("/login", authorize, loginBusiness);
 
 router.get("/logout", async (req, res) => {
   req.session.user = {};
@@ -75,7 +76,7 @@ router.get("/all", getAllBusinesses);
 router.get("/home/:id", getABusiness);
 
 // update business profile
-router.put("/home/:id", updateBusiness);
+router.patch("/home/:id", updateBusiness);
 
 // get one post belonging to a business (& comments on that post
 router.get("/post/:postId", getAPost);

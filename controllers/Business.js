@@ -1,6 +1,7 @@
 require("dotenv").config();
 const db = require("../db");
 const bcrypt = require("bcrypt");
+const {makeJWT} = require ('../middleware/business-auth');
 
 //get all businesses from database
 async function getAllBusinesses(req, res) {
@@ -52,31 +53,81 @@ async function getABusiness(req, res) {
 
 //create one business and add to table
 async function createBusiness(req, res) {
+  let business = req.body;
+  let hashedPassword;
+  const saltRounds = 10;
+
+  // validate business account info (needs work)
+  if (!business) {
+    return res.status(401).json({
+      message: "Invalid account info"
+    })
+  }
+
   try {
+    hashedPassword = await bcrypt.hash(business.password, saltRounds);
+    business["password"] = hashedPassword;
+  } catch (err) {
+    return res.status(404).json({
+      message: "Invalid password",
+      error: err.message
+    })
+  }
 
-    console.log("JEST YOU'RE RUDE inside")
-    const {password} = req.body;
-  
-    let hashedPassword;
-    const saltRounds = 10;
-    hashedPassword = await bcrypt.hash(password, saltRounds);
-  
-    let user = req.body;
-    user["password"] = hashedPassword;
+  let token;
 
-    await db.none(
-      "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo})",
-      user
+  try {
+    token = await makeJWT(business);
+  } catch (err) {
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+
+  try {
+    const businessID = await db.one(
+      "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo}) RETURNING id",
+      business
     );
+    console.log(businessID)
+
+    token = await makeJWT(businessID)
 
     return res.status(200).json({
-
       message: "business account registered"
     })
 
   } catch (err) {
     res.status(500).send(err);
   }
+
+  return res.json({token})
+
+  // try {
+
+  //   console.log("JEST YOU'RE RUDE inside")
+  //   const {password} = req.body;
+  
+  //   let hashedPassword;
+  //   const saltRounds = 10;
+  //   hashedPassword = await bcrypt.hash(password, saltRounds);
+  
+  //   let user = req.body;
+  //   user["password"] = hashedPassword;
+
+  //   await db.none(
+  //     "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo})",
+  //     user
+  //   );
+
+  //   return res.status(200).json({
+
+  //     message: "business account registered"
+  //   })
+
+  // } catch (err) {
+  //   res.status(500).send(err);
+  // }
 }
 
 //login business
