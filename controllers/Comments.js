@@ -11,13 +11,13 @@ async function getAllComments(req, res) {
 }
 //get all comments for a post
 async function getPostComments(req, res) {
-  const post_id = parseInt(req.params.post_id, 10);
+  const post_id = parseInt(req.params.id, 10);
   try {
     let comments = await db.any(
       "SELECT * FROM comments WHERE post_id=$1",
       post_id
     );
-    return res.json(comments);
+    return res.status(200).json(comments);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -53,10 +53,16 @@ async function getAComment(req, res) {
 
 //create a comment
 async function createComment(req, res) {
+  const data = {
+    content: req.body.content,
+    post_id: req.params.post_id,
+    business_id: req.params.business_id,
+  };
+
   try {
     await db.none(
       "INSERT INTO comments (content,post_id,business_id) VALUES (${content},${post_id},${business_id})",
-      req.body
+      data
     );
     return res.json({
       message: "success",
@@ -67,24 +73,24 @@ async function createComment(req, res) {
 }
 //update a comment
 async function updateComment(req, res) {
-  let comment_id = parseInt(req.body.id, 10);
+  let comment_id = parseInt(req.params.commentId, 10);
   try {
-    await db.none(
-      "UPDATE comments SET content=$1 WHERE id=$2",
+    await db.none("UPDATE comments SET content=$1 WHERE id=$2", [
       req.body.content,
-      comment_id
-    );
+      comment_id,
+    ]);
+    return res.status(200).json({ message: "updates a comment" });
   } catch (err) {
     res.status(500).send(err);
   }
 }
 //delete a comment
 async function deleteComment(req, res) {
-  let comment_id = parseInt(req.body.id, 10);
+  let comment_id = parseInt(req.params.commentId, 10);
   try {
     await db.none("DELETE FROM comments WHERE id=$1", comment_id);
-    return res.json({
-      message: "success",
+    return res.status(200).json({
+      message: "comment deleted",
     });
   } catch (err) {
     res.status(500).send(err);
@@ -100,4 +106,3 @@ module.exports = {
   updateComment,
   deleteComment,
 };
-

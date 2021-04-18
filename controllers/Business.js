@@ -145,6 +145,49 @@ async function loginBusiness(req, res) {
   }
 }
 
+//login business
+async function loginBusiness(req, res) {
+  const { password } = req.body;
+
+  const { exists } = await db.one(
+    "SELECT EXISTS(SELECT * FROM businesses WHERE user_name=${user_name})",
+    req.body
+  );
+
+  let user;
+
+  if (!exists) {
+    return res.status(404).json({
+      message: "No user found with that user name",
+    });
+  } else {
+    user = await db.one(
+      "SELECT * FROM businesses WHERE user_name=${user_name}",
+      req.body
+    );
+  }
+
+  let match;
+
+  try {
+    match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.status(404).json({
+        message: "Invalid Credentials",
+      });
+    } else {
+      req.session.user = user;
+
+      return res.status(200).json({
+        message: "Logged in",
+      });
+    }
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
+
 //update single business from database
 async function updateBusiness(req, res) {
   const id = parseInt(req.params.id, 10);
