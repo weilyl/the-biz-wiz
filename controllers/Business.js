@@ -90,7 +90,7 @@ async function createBusiness(req, res) {
     // return res.status(201).json({
       //   message: "business account registered"
     // })
-        
+
   } catch (err) {
     console.log("what about here")
     return res.status(400).send(err);
