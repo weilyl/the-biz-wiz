@@ -2,13 +2,12 @@
 const jwt = require('jsonwebtoken');
 
 // generate JWT
-async function generateToken (user) {
+async function generateToken (business) {
     const secret = process.env.SECRET;
 
     const token = await jwt.sign(
         {
-            userID: user["id"]
-        },
+            "business_id": business["id"]        },
         secret,
         {
             expiresIn: '60d'
@@ -33,7 +32,7 @@ async function authorize (req, res, next) {
     }
 
     // Bearer token
-    
+
     // below for when we have a frontend
     // const token = req.headers.authorization.split(" ")[0] === "Bearer" ? req.headers.authorization.split(" ")[1] : null;
 

@@ -85,7 +85,7 @@ async function createBusiness(req, res) {
       
     console.log("businessID ", businessID)
       
-    token = await generateToken({"businessID": businessID.id})
+    token = await generateToken(businessID)
     
     // return res.status(201).json({
       //   message: "business account registered"
@@ -128,23 +128,19 @@ async function loginBusiness(req, res) {
   let match;
 
   try {
-    console.log(`match1: ${match}`)
     match = await bcrypt.compare(password, business.password);
-    console.log(`match2: ${match}`)
     if (!match) {
       return res.status(401).json({
         message: "Invalid Credentials"
       })
     } else {
-      // req.session.user = user;
 
-      const token = await generateToken({"businessID": business.id});
+      const token = await generateToken(business);
 
       return res.status(202).json({"token": token})
     }
 
   } catch (err) {
-    console.log("here? login")
     return res.status(400).json(err)
   }
 }
@@ -169,13 +165,14 @@ async function updateBusiness(req, res) {
       message: "success",
     });
   } catch {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 }
 
 //delete a business from database
 async function deleteBusiness(req, res) {
   const id = parseInt(req.params.id, 10);
+
   try {
     await db.none("DELETE FROM businesses WHERE id=$1", id);
     return res.json({
