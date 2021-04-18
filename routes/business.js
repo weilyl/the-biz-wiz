@@ -73,7 +73,7 @@ router.get("/logout", async (req, res) => {
 router.get("/all", getAllBusinesses);
 
 // business own profile
-router.get("/home/:id", getABusiness);
+router.get("/home/:id", authorize, getABusiness);
 
 // update business profile
 router.patch("/home/:id", updateBusiness);

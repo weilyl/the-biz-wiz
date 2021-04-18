@@ -1,7 +1,7 @@
 require("dotenv").config();
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const {makeJWT} = require ('../middleware/business-auth');
+const {generateToken} = require ('../middleware/business-auth');
 
 //get all businesses from database
 async function getAllBusinesses(req, res) {
@@ -47,19 +47,20 @@ async function getABusiness(req, res) {
     const business = await db.one("SELECT * FROM businesses where id = $1", id);
     return res.json(business);
   } catch (err) {
-    res.status(500).json(err);
+    return res.status(500).json(err);
   }
 }
 
 //create one business and add to table
 async function createBusiness(req, res) {
+
   let business = req.body;
   let hashedPassword;
   const saltRounds = 10;
 
   // validate business account info (needs work)
   if (!business) {
-    return res.status(401).json({
+    return res.status(400).json({
       message: "Invalid account info"
     })
   }
@@ -68,66 +69,44 @@ async function createBusiness(req, res) {
     hashedPassword = await bcrypt.hash(business.password, saltRounds);
     business["password"] = hashedPassword;
   } catch (err) {
-    return res.status(404).json({
+    return res.status(401).json({
       message: "Invalid password",
       error: err.message
     })
   }
 
   let token;
-
-  try {
-    token = await makeJWT(business);
-  } catch (err) {
-    return res.status(500).json({
-      message: err.message,
-    });
-  }
-
+  
   try {
     const businessID = await db.one(
       "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo}) RETURNING id",
       business
     );
-    console.log(businessID)
-
-    token = await makeJWT(businessID)
-
-    return res.status(200).json({
-      message: "business account registered"
-    })
-
+      
+    console.log("businessID ", businessID)
+      
+    token = await generateToken({"businessID": businessID.id})
+    
+    // return res.status(201).json({
+      //   message: "business account registered"
+    // })
+        
   } catch (err) {
-    res.status(500).send(err);
+    console.log("what about here")
+    return res.status(400).send(err);
   }
 
-  return res.json({token})
-
   // try {
-
-  //   console.log("JEST YOU'RE RUDE inside")
-  //   const {password} = req.body;
-  
-  //   let hashedPassword;
-  //   const saltRounds = 10;
-  //   hashedPassword = await bcrypt.hash(password, saltRounds);
-  
-  //   let user = req.body;
-  //   user["password"] = hashedPassword;
-
-  //   await db.none(
-  //     "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo})",
-  //     user
-  //   );
-
-  //   return res.status(200).json({
-
-  //     message: "business account registered"
-  //   })
-
+  //   token = await generateToken();
   // } catch (err) {
-  //   res.status(500).send(err);
+  //   console.log("here?")
+  //   return res.status(400).json({
+  //     message: err.message,
+  //   });
   // }
+  
+  return res.status(201).json({token})
+      
 }
 
 //login business
@@ -136,36 +115,37 @@ async function loginBusiness(req, res) {
 
   const {exists} = await db.one('SELECT EXISTS(SELECT * FROM businesses WHERE user_name=${user_name})', req.body)
 
-  let user;
+  let business;
 
   if (!exists) {
     return res.status(404).json({
       message: "No user found with that user name"
     })
   } else {
-    user = await db.one('SELECT * FROM businesses WHERE user_name=${user_name}', req.body)
+    business = await db.one('SELECT * FROM businesses WHERE user_name=${user_name}', req.body)
   }
 
   let match;
 
   try {
-
-    match = await bcrypt.compare(password, user.password);
-
+    console.log(`match1: ${match}`)
+    match = await bcrypt.compare(password, business.password);
+    console.log(`match2: ${match}`)
     if (!match) {
-      return res.status(404).json({
+      return res.status(401).json({
         message: "Invalid Credentials"
       })
     } else {
-      req.session.user = user;
+      // req.session.user = user;
 
-      return res.status(200).json({
-        message: "Logged in"
-      })
+      const token = await generateToken({"businessID": business.id});
+
+      return res.status(202).json({"token": token})
     }
 
   } catch (err) {
-    return res.status(500).json(err)
+    console.log("here? login")
+    return res.status(400).json(err)
   }
 }
 
