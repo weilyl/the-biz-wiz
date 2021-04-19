@@ -1,27 +1,6 @@
 // Update with your config settings.
 
 require("dotenv").config();
-const { Client } = require("pg");
-
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
-
-client.connect();
-
-client.query(
-  "SELECT table_schema,table_name FROM information_schema.tables;",
-  (err, res) => {
-    if (err) throw err;
-    for (let row of res.rows) {
-      console.log(JSON.stringify(row));
-    }
-    client.end();
-  }
-);
 
 module.exports = {
   development: {
@@ -35,7 +14,7 @@ module.exports = {
 
   staging: {
     client: "postgresql",
-    connectionString:
+    connection:
       process.env.DATABASE_URL ||
       "postgres://uikjstnhobxlmz:d47ca69623cdb10dc9875b877e9d59b274bded4b786f41a530c2bcaf43c30244@ec2-34-233-0-64.compute-1.amazonaws.com:5432/d8uqu0bt7057ho",
     pool: {
@@ -55,7 +34,7 @@ module.exports = {
 
   production: {
     client: "postgresql",
-    connectionString:
+    connection:
       process.env.DATABASE_URL ||
       "postgres://uikjstnhobxlmz:d47ca69623cdb10dc9875b877e9d59b274bded4b786f41a530c2bcaf43c30244@ec2-34-233-0-64.compute-1.amazonaws.com:5432/d8uqu0bt7057ho",
     pool: {
