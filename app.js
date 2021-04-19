@@ -7,11 +7,13 @@ const businessRouter = require("./routes/business");
 const cors = require("cors");
 
 const NODE_ENV = process.env.NODE_ENV;
+
 const whiteList = [
   "https://biz-wiz.herokuapp.com",
   "http://localhost:3030",
   "http://localhost:10645",
 ];
+
 // const session = require('express-session');
 const corsOptions = {
   origin: function (origin, callback) {
