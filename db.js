@@ -16,6 +16,7 @@ const db = pg({
       rejectUnauthorized: false,
     },
   },
+
 });
 
 module.exports = db;
