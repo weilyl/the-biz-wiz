@@ -1,6 +1,7 @@
 const app = require("../app");
 const request = require("supertest");
 const server = request(app);
+
 describe("Businesses TESTS", () => {
   it("Register A Business", async (done) => {
     const data = {
@@ -33,7 +34,7 @@ describe("Businesses TESTS", () => {
     done();
   });
 
-  it.only("Login as a business", async (done) => {
+  it("Login as a business", async (done) => {
     const user = {
       user_name: "Testing 007",
       password: "biz_ 005",
@@ -84,7 +85,7 @@ describe("Posts TESTS", () => {
     done();
   });
 
-  it("Edits a Post", async (done) => {
+  it.only("Edits a Post", async (done) => {
     const data = {
       content: "updating post 111",
     };
