@@ -11,7 +11,7 @@ async function getAllComments(req, res) {
 }
 //get all comments for a post
 async function getPostComments(req, res) {
-  const post_id = parseInt(req.params.id, 10);
+  const post_id = parseInt(req.params["post_id"], 10);
   try {
     let comments = await db.any(
       "SELECT * FROM comments WHERE post_id=$1",
@@ -25,7 +25,7 @@ async function getPostComments(req, res) {
 
 //get all comments for a business
 async function getBusinessComments(req, res) {
-  const business_id = parseInt(req.params.business_id);
+  const business_id = parseInt(req.params.business_id, 10);
   try {
     let comments = await db.any(
       "SELECT * FROM comments WHERE business_id=$1",
@@ -39,15 +39,17 @@ async function getBusinessComments(req, res) {
 
 //get a specific comment
 async function getAComment(req, res) {
-  const comment_id = parseInt(req.params.id, 10);
+  const comment_id = parseInt(req.params["comment_id"], 10);
   try {
     let comment = await db.one(
       "SELECT * FROM comments WHERE id=$1",
       comment_id
     );
-    return res.json(comment);
+    return res.status(200).json(comment);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({
+      message: err.message
+    });
   }
 }
 
@@ -68,12 +70,14 @@ async function createComment(req, res) {
       message: "success",
     });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({
+      message: err.message
+    });
   }
 }
 //update a comment
 async function updateComment(req, res) {
-  let comment_id = parseInt(req.params.commentId, 10);
+  let comment_id = parseInt(req.params.comment_id, 10);
   try {
     await db.none("UPDATE comments SET content=$1 WHERE id=$2", [
       req.body.content,
@@ -81,19 +85,21 @@ async function updateComment(req, res) {
     ]);
     return res.status(200).json({ message: "updates a comment" });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({message: err.message});
   }
 }
 //delete a comment
 async function deleteComment(req, res) {
-  let comment_id = parseInt(req.params.commentId, 10);
+  let comment_id = parseInt(req.params.comment_id, 10);
   try {
     await db.none("DELETE FROM comments WHERE id=$1", comment_id);
     return res.status(200).json({
       message: "comment deleted",
     });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({
+      message: err.message
+    });
   }
 }
 

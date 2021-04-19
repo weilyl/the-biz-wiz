@@ -8,7 +8,7 @@ async function getEveryPost(req, res) {
     const posts = await db.any("SELECT * FROM posts");
     return res.json(posts);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({message: err.message});
   }
 }
 
@@ -28,7 +28,7 @@ async function getBusinessPosts(req, res) {
 
 //get specific post by id
 async function getAPost(req, res) {
-  const post_id = parseInt(req.params.id, 10);
+  const post_id = parseInt(req.params.post_id, 10);
   try {
     const post = await db.one("SELECT * FROM posts WHERE id = $1", post_id);
     return res.status(200).json(post);
@@ -57,7 +57,7 @@ async function createPost(req, res) {
 }
 //delete a post
 async function deletePost(req, res) {
-  const post_id = parseInt(req.params.id, 10);
+  const post_id = parseInt(req.params.post_id, 10);
   try {
     await db.none("DELETE FROM posts where id = $1", post_id);
     return res.status(200).json({ message: "Post Deleted" });
@@ -67,7 +67,7 @@ async function deletePost(req, res) {
 }
 //update a post
 async function updatePost(req, res) {
-  const post_id = parseInt(req.params.id, 10);
+  const post_id = parseInt(req.params.post_id, 10);
   try {
     await db.none("UPDATE posts SET content = $1 WHERE id = $2", [
       req.body.content,
