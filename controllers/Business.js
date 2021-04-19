@@ -175,6 +175,7 @@ async function updateBusiness(req, res) {
 
 //delete a business from database
 async function deleteBusiness(req, res) {
+
   const id = parseInt(req["business_id"], 10);
 
   try {

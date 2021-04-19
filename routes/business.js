@@ -78,7 +78,6 @@ router.get("/home/:business_id", authorize, getABusiness);
 router.patch("/home/:business_id", authorize, updateBusiness);
 
 // get one post belonging to a business (& comments on that post
-
 router.get("/posts/post/:post_id", authorize, getAPost);
 
 // search engine for business name, description
@@ -105,9 +104,7 @@ router.get("/posts/post/:post_id/comments/all", authorize, getPostComments);
 router.post("/posts/post/:post_id/comment/create/:business_id", authorize, createComment);
 
 // business updates a post
-
 router.patch("/posts/post/:post_id/edit", authorize, updatePost);
-
 
 // business updates a comment
 router.patch("/posts/post/:post_id/comment/:comment_id", authorize, updateComment);

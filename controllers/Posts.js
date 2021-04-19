@@ -71,6 +71,7 @@ async function deletePost(req, res) {
 //update a post
 async function updatePost(req, res) {
   const post_id = parseInt(req.params.post_id, 10);
+
   console.log(`post ID: ${post_id}`)
 
   try {
