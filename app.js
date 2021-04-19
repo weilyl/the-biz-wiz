@@ -12,7 +12,7 @@ const whiteList = ["https://biz-wiz.herokuapp.com/", "http://localhost:3030"];
 // const session = require('express-session');
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whiteList.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(
