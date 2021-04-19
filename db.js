@@ -5,7 +5,7 @@ const pg = require("pg-promise")();
 const db = pg({
   host: process.env.HOST || "https://biz-wiz.herokuapp.com",
   port: 5432,
-  database: process.env.DATABASE_URL || "d8uqu0bt7057ho",
+  database: "d8uqu0bt7057ho",
   user: process.env.USER || "uikjstnhobxlmz",
   password:
     process.env.PASSWORD ||
@@ -16,7 +16,6 @@ const db = pg({
       rejectUnauthorized: false,
     },
   },
-
 });
 
 module.exports = db;
