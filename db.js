@@ -1,7 +1,4 @@
-const knex = require("./knex");
 const knexfile = require("./knexfile");
-
-knex(knexfile);
 
 const pg = require("pg-promise")();
 
@@ -13,12 +10,12 @@ const db = pg({
   password:
     process.env.PASSWORD ||
     "d47ca69623cdb10dc9875b877e9d59b274bded4b786f41a530c2bcaf43c30244",
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: true,
-    },
-  },
+  // ssl: true,
+  // extra: {
+  //   ssl: {
+  //     rejectUnauthorized: true,
+  //   },
+  // },
 });
 
 /*
