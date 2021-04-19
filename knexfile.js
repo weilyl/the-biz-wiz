@@ -20,6 +20,12 @@ module.exports = {
       min: 2,
       max: 10,
     },
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
     migrations: {
       tableName: "knex_migrations",
     },
@@ -32,6 +38,12 @@ module.exports = {
     pool: {
       min: 2,
       max: 10,
+    },
+    ssl: true,
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
     migrations: {
       tableName: "knex_migrations",
