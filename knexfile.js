@@ -16,7 +16,7 @@ module.exports = {
     client: "postgresql",
     connection:
       process.env.DATABASE_URL ||
-      "postgres://uikjstnhobxlmz:d47ca69623cdb10dc9875b877e9d59b274bded4b786f41a530c2bcaf43c30244@ec2-34-233-0-64.compute-1.amazonaws.com:5432/d8uqu0bt7057ho",
+      "postgres://uikjstnhobxlmz:d47ca69623cdb10dc9875b877e9d59b274bded4b786f41a530c2bcaf43c30244@ec2-34-233-0-64.compute-1.amazonaws.com:5432/d8uqu0bt7057ho?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
     pool: {
       min: 2,
       max: 10,
@@ -36,7 +36,7 @@ module.exports = {
     client: "postgresql",
     connection:
       process.env.DATABASE_URL ||
-      "postgres://uikjstnhobxlmz:d47ca69623cdb10dc9875b877e9d59b274bded4b786f41a530c2bcaf43c30244@ec2-34-233-0-64.compute-1.amazonaws.com:5432/d8uqu0bt7057ho",
+      "postgres://uikjstnhobxlmz:d47ca69623cdb10dc9875b877e9d59b274bded4b786f41a530c2bcaf43c30244@ec2-34-233-0-64.compute-1.amazonaws.com:5432/d8uqu0bt7057ho?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
     pool: {
       min: 2,
       max: 10,
