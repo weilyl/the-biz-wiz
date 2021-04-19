@@ -1,5 +1,5 @@
 const knexfile = require("./knexfile");
-/*
+
 const pg = require("pg-promise")();
 
 const db = pg({
@@ -17,8 +17,10 @@ const db = pg({
     },
   },
 });
-*/
 
+knexfile(db);
+
+/*
 const {Client} = require('pg');
 const params = {
   host: 'ec2-34-233-0-64.compute-1.amazonaws.com',
@@ -31,5 +33,5 @@ const params = {
 
 const client = new Client(params);
 client.connect();
-
+*/
 module.exports = db;
