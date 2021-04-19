@@ -3,6 +3,7 @@ const log = require("./middleware/log");
 const express = require("express");
 const app = express();
 const businessRouter = require("./routes/business");
+const cors = require("cors");
 
 const NODE_ENV = process.env.NODE_ENV;
 const whiteList = ["https://biz-wiz.herokuapp.com/", "http://localhost:3030"];
