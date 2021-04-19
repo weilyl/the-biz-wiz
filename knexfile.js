@@ -41,10 +41,10 @@ module.exports = {
       min: 2,
       max: 10,
     },
-    ssl: false,
+    ssl: true,
     extra: {
       ssl: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: true,
       },
     },
     migrations: {
