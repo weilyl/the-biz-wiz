@@ -3,7 +3,7 @@ const knexfile = require("./knexfile");
 const pg = require("pg-promise")();
 
 const db = pg({
-  host: process.env.HOST || "https://biz-wiz.herokuapp.com",
+  host: process.env.HOST || "https://biz-wiz.herokuapp.com/",
   port: 5432,
   database: "d8uqu0bt7057ho",
   user: process.env.USER || "uikjstnhobxlmz",
