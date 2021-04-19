@@ -54,7 +54,7 @@ describe("Businesses TESTS", () => {
       type: "small biz",
       logo: "img.com",
     };
-    await server.put("/business/home/3").send(data).expect(200);
+    await server.put("/business/home/3").send(data).expect(202);
     done();
   });
 
