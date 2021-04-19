@@ -14,7 +14,7 @@ describe("Businesses TESTS", () => {
     await server
       .post("/business/register")
       .send(data)
-      .expect(200)
+      .expect(201)
       done();
   });
 
@@ -41,7 +41,7 @@ describe("Businesses TESTS", () => {
     await server
       .post("/business/login")
       .send(user)
-      .expect(200) 
+      .expect(202) 
     done();
   })
 
