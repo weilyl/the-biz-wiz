@@ -1,9 +1,10 @@
-const { Router } = require("express");
-const router = new Router();
+const express = require("express");
+const router = new express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const db = require("../db");
+const {authorize} = require("../middleware/business-auth");
 
 const {
   getAllBusinesses,
@@ -35,6 +36,7 @@ const {
   deletePost,
 } = require("../controllers/Posts");
 
+//middleware
 router.use(
   session({
     secret: process.env.SECRET,
@@ -44,30 +46,36 @@ router.use(
   })
 );
 
+router.use(express.json());
+
+router.use((req, res, next) => {
+  console.log("business router");
+  next();
+});
+
 // business related routes
 
 // register a new business
 router.post("/register", createBusiness);
-// business login
-router.post("/login");
 
-router.post("/login", loginBusiness);
+// business login
+router.post("/login", authorize, loginBusiness);
 
 router.get("/logout", async (req, res) => {
   req.session.user = {};
   return res.status(200).json({
-    message: "Logged out",
-  });
-});
+    message: "Logged out"
+  })
+})
 
 // get all businesses
 router.get("/all", getAllBusinesses);
 
 // business own profile
-router.get("/home/:id", getABusiness);
+router.get("/home/:id", authorize, getABusiness);
 
 // update business profile
-router.put("/home/:id", updateBusiness);
+router.patch("/home/:id", updateBusiness);
 
 // get one post belonging to a business (& comments on that post
 
