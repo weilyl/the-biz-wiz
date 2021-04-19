@@ -11,12 +11,12 @@ app.use(express.json());
 
 // set up sessions
 // app.use(
-//     session({
-//         secret: process.env.SECRET,
-//         resave: false,
-//         saveUninitialized: false,
-//     })
-// )
+//   session({
+//     secret: process.env.SECRET,
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 
 // routers
 app.use("/business", businessRouter);
