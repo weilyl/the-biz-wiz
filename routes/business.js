@@ -75,7 +75,7 @@ router.get("/all", getAllBusinesses);
 router.get("/home/:id", authorize, getABusiness);
 
 // update business profile
-router.patch("/home/:id", updateBusiness);
+router.patch("/home/:id", authorize, updateBusiness);
 
 // get one post belonging to a business (& comments on that post
 

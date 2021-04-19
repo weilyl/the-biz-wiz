@@ -95,15 +95,6 @@ async function createBusiness(req, res) {
     console.log("what about here")
     return res.status(400).send(err);
   }
-
-  // try {
-  //   token = await generateToken();
-  // } catch (err) {
-  //   console.log("here?")
-  //   return res.status(400).json({
-  //     message: err.message,
-  //   });
-  // }
   
   return res.status(201).json({token})
       
@@ -145,29 +136,43 @@ async function loginBusiness(req, res) {
   }
 }
 
-
 //update single business from database
 async function updateBusiness(req, res) {
-  const id = parseInt(req.params.id, 10);
-  try {
-    await db.none(
-      "UPDATE businesses SET business_name=$1, user_name=$2, password=$3, address=$4, type=$5, logo=$6 WHERE id=$7",
-      [
-        req.body.business_name,
-        req.body.user_name,
-        req.body.password,
-        req.body.address,
-        req.body.type,
-        req.body.logo,
-        id,
-      ]
-    );
-    return res.json({
-      message: "success",
-    });
-  } catch {
-    return res.status(500).json(err);
+
+  function parseBody(req) {
+    const changes = Object.entries(req.body);
+    console.log(`changes ${changes}`)
+
+    let query = 'UPDATE businesses SET';
+
+    changes.forEach(([key, value], idx) => {
+        if (changes.length > 1 && idx!==changes.length-1) {
+            query += ` ${key}='${value}',`
+        } else {
+            query += ` ${key}='${value}'`
+        }
+    })
+
+    query += ` WHERE id=${parseInt(req["business_id"], 10)} RETURNING *;`
+
+    console.log(`query: ${query}`)
+
+    return query
   }
+
+  // const id = parseInt(req["business_id"], 10);
+
+  try {
+    await db.one(parseBody(req))
+    return res.status(202).json({
+      message: "success"
+    });
+  } catch (err){
+    return res.status(500).json({
+      message: err.message
+    });
+  }
+
 }
 
 //delete a business from database
