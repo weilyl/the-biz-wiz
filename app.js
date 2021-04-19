@@ -3,6 +3,7 @@ const log = require("./middleware/log");
 const express = require("express");
 const app = express();
 const businessRouter = require("./routes/business");
+
 const NODE_ENV = process.env.NODE_ENV;
 const whiteList = ["https://biz-wiz.herokuapp.com/", "http://localhost:3030"];
 // const session = require('express-session');
@@ -20,6 +21,7 @@ const corsOptions = {
 
 //middleware
 NODE_ENV === "development" ? app.use(cors()) : app.use(cors(corsOptions));
+
 app.use(express.urlencoded());
 app.use(express.json());
 
