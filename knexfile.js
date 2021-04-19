@@ -21,7 +21,7 @@ module.exports = {
       min: 2,
       max: 10,
     },
-    ssl: true,
+    ssl: false,
     extra: {
       ssl: {
         rejectUnauthorized: false,
@@ -41,7 +41,7 @@ module.exports = {
       min: 2,
       max: 10,
     },
-    ssl: true,
+    ssl: false,
     extra: {
       ssl: {
         rejectUnauthorized: false,
