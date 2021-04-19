@@ -177,14 +177,13 @@ async function loginBusiness(req, res) {
         message: "Invalid Credentials",
       });
     } else {
-      req.session.user = user;
 
-      return res.status(200).json({
-        message: "Logged in",
-      });
+      const token = await generateToken(business);
+
+      return res.status(202).json({"token": token})
     }
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(400).json(err)
   }
 }
 
