@@ -72,17 +72,16 @@ router.get("/logout", async (req, res) => {
 router.get("/all", getAllBusinesses);
 
 // business own profile
-router.get("/home/:id", authorize, getABusiness);
+router.get("/home/:business_id", authorize, getABusiness);
 
 // update business profile
-router.patch("/home/:id", updateBusiness);
+router.patch("/home/:business_id", authorize, updateBusiness);
 
 // get one post belonging to a business (& comments on that post
-
-router.get("/posts/post/:id", getAPost);
+router.get("/posts/post/:post_id", authorize, getAPost);
 
 // search engine for business name, description
-router.get("/find/?search=:query", getBusinessByName);
+router.get("/find/?search=:query", authorize, getBusinessByName);
 
 // get all businesses by type
 router.get("/category/:type");
@@ -93,33 +92,30 @@ router.get("/category/:type");
 router.get("/category/:type/distance/?rad=:distance");
 
 // business makes a post
-
-router.post("/create-post/:business_id", createPost);
+router.post("/create-post/:business_id", authorize, createPost);
 
 // get all posts belonging to a business
-router.get("/home/posts/:business_id/all", getBusinessPosts);
+router.get("/home/posts/:business_id/all", authorize, getBusinessPosts);
 
 // get all comments on a post
-router.get("/posts/post/:id/comments/all", getPostComments);
+router.get("/posts/post/:post_id/comments/all", authorize, getPostComments);
 
 // business comments on a post
-router.post("/posts/post/:post_id/comment/create/:business_id", createComment);
+router.post("/posts/post/:post_id/comment/create/:business_id", authorize, createComment);
 
 // business updates a post
-
-router.put("/posts/post/:id/edit", updatePost);
-
+router.patch("/posts/post/:post_id/edit", authorize, updatePost);
 
 // business updates a comment
-router.put("/posts/post/:id/comment/:commentId", updateComment);
+router.patch("/posts/post/:post_id/comment/:comment_id", authorize, updateComment);
 
 // delete a business
-router.delete("/home/delete-business/:id", deleteBusiness);
+router.delete("/home/delete-business/:business_id", authorize, deleteBusiness);
 
 // business deletes a post
-router.delete("/posts/post/:id/remove", deletePost);
+router.delete("/posts/post/:post_id/remove", authorize, deletePost);
 
 // business deletes a comment it made or a comment on a post it made
-router.delete("/posts/post/:id/comment/:commentId", deleteComment);
+router.delete("/posts/post/:post_id/comment/:comment_id", authorize, deleteComment);
 
 module.exports = router;

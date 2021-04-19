@@ -1,6 +1,7 @@
 const app = require("../app");
 const request = require("supertest");
 const server = request(app);
+
 describe("Businesses TESTS", () => {
   it("Register A Business", async (done) => {
     const data = {
@@ -14,7 +15,7 @@ describe("Businesses TESTS", () => {
     await server
       .post("/business/register")
       .send(data)
-      .expect(200)
+      .expect(201)
       done();
   });
 
@@ -33,7 +34,7 @@ describe("Businesses TESTS", () => {
     done();
   });
 
-  it.only("Login as a business", async (done) => {
+  it("Login as a business", async (done) => {
     const user = {
       user_name: "Testing 007",
       password: "biz_ 005",
@@ -41,7 +42,7 @@ describe("Businesses TESTS", () => {
     await server
       .post("/business/login")
       .send(user)
-      .expect(200) 
+      .expect(202) 
     done();
   })
 
@@ -54,7 +55,7 @@ describe("Businesses TESTS", () => {
       type: "small biz",
       logo: "img.com",
     };
-    await server.put("/business/home/3").send(data).expect(200);
+    await server.put("/business/home/3").send(data).expect(202);
     done();
   });
 
@@ -84,7 +85,7 @@ describe("Posts TESTS", () => {
     done();
   });
 
-  it("Edits a Post", async (done) => {
+  it.only("Edits a Post", async (done) => {
     const data = {
       content: "updating post 111",
     };
