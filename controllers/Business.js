@@ -42,7 +42,7 @@ async function getBusinessByName(req, res) {
 
 //get a single business from table matching id
 async function getABusiness(req, res) {
-  const id = parseInt(req.params.id, 10);
+  const id = parseInt(req.params["business_id"], 10);
   try {
     const business = await db.one("SELECT * FROM businesses where id = $1", id);
     return res.json(business);
@@ -160,8 +160,6 @@ async function updateBusiness(req, res) {
     return query
   }
 
-  // const id = parseInt(req["business_id"], 10);
-
   try {
     await db.one(parseBody(req))
     return res.status(202).json({
@@ -177,7 +175,7 @@ async function updateBusiness(req, res) {
 
 //delete a business from database
 async function deleteBusiness(req, res) {
-  const id = parseInt(req.params.id, 10);
+  const id = parseInt(req.params["business_id"], 10);
 
   try {
     await db.none("DELETE FROM businesses WHERE id=$1", id);
