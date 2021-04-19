@@ -7,7 +7,8 @@ async function generateToken (business) {
 
     const token = await jwt.sign(
         {
-            "business_id": business["id"]        },
+            "business_id": business["id"]       
+        },
         secret,
         {
             expiresIn: '60d'
@@ -52,8 +53,7 @@ async function authorize (req, res, next) {
     }
 
     if (decoded) {
-        req.user_name = decoded.user_name;
-        req.password = decoded.password;
+        req["business_id"] = decoded["business_id"];
         next();
     }
 }
