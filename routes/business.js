@@ -118,4 +118,5 @@ router.delete("/posts/post/:post_id/remove", authorize, deletePost);
 // business deletes a comment it made or a comment on a post it made
 router.delete("/posts/post/:post_id/comment/:comment_id", authorize, deleteComment);
 
+
 module.exports = router;
