@@ -1,5 +1,6 @@
+const { json } = require("express");
 const db = require("../db");
-const {getPostComments} = require ('./Comments');
+const { getPostComments } = require("./Comments");
 
 //get all posts in database
 async function getEveryPost(req, res) {
@@ -29,23 +30,27 @@ async function getBusinessPosts(req, res) {
 async function getAPost(req, res) {
   const post_id = parseInt(req.params.id, 10);
   try {
-    const post = await db.one("SELECT * FROM posts WHERE id=$1", post_id);
-    getPostComments;
-    return res.json(post);
+    const post = await db.one("SELECT * FROM posts WHERE id = $1", post_id);
+    return res.status(200).json(post);
   } catch (err) {
     res.status(500).send(err);
   }
 }
 //create a post
 async function createPost(req, res) {
+  const id = parseInt(req.params.business_id);
+  const content = req.body.content;
+  const info = {
+    content: content,
+    business_id: id,
+  };
+
   try {
     await db.none(
       "INSERT INTO posts (content, business_id) VALUES (${content},${business_id})",
-      req.body
+      info
     );
-    return res.json({
-      message: "success",
-    });
+    return res.status(200).json({ message: "sucessfully created" });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -54,10 +59,8 @@ async function createPost(req, res) {
 async function deletePost(req, res) {
   const post_id = parseInt(req.params.id, 10);
   try {
-    await db.none("DELETE FROM posts where id=$1", post_id);
-    return res.json({
-      message: "success",
-    });
+    await db.none("DELETE FROM posts where id = $1", post_id);
+    return res.status(200).json({ message: "Post Deleted" });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -66,13 +69,11 @@ async function deletePost(req, res) {
 async function updatePost(req, res) {
   const post_id = parseInt(req.params.id, 10);
   try {
-    await db.none("UPDATE posts SET content=$1 WHERE id=$2", [
+    await db.none("UPDATE posts SET content = $1 WHERE id = $2", [
       req.body.content,
       post_id,
     ]);
-    return res.json({
-      message: "success",
-    });
+    return res.status(200).json({ message: "updated post" });
   } catch (err) {
     res.status(500).send(err);
   }
@@ -86,4 +87,3 @@ module.exports = {
   updatePost,
   deletePost,
 };
-
