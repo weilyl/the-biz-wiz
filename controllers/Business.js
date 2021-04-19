@@ -31,7 +31,7 @@ async function locateBusiness(req, res) {
 async function getBusinessByName(req, res) {
   try {
     const results = await db.any(
-      "SELECT * FROM businesses WHERE business_name = ${query}",
+      "SELECT * FROM businesses WHERE business_name = ${query} 0R description = '%${query}%'",
       req.params
     );
     return res.json(results);
@@ -175,7 +175,7 @@ async function updateBusiness(req, res) {
 
 //delete a business from database
 async function deleteBusiness(req, res) {
-  const id = parseInt(req.params["business_id"], 10);
+  const id = parseInt(req["business_id"], 10);
 
   try {
     await db.none("DELETE FROM businesses WHERE id=$1", id);
