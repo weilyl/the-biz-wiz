@@ -1,3 +1,4 @@
+
 const knexfile = require("./knexfile");
 
 const pg = require("pg-promise")();
@@ -9,5 +10,6 @@ const db = pg({
   user: process.env.USER,
   password: process.env.PASSWORD,
 });
+
 
 module.exports = db;
