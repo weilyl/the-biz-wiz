@@ -1,4 +1,7 @@
+const knex = require("./knex");
 const knexfile = require("./knexfile");
+
+knex(knexfile);
 
 const pg = require("pg-promise")();
 
@@ -17,8 +20,6 @@ const db = pg({
     },
   },
 });
-
-knexfile(db);
 
 /*
 const {Client} = require('pg');
