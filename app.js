@@ -44,5 +44,8 @@ app.use(express.json());
 
 // routers
 app.use("/business", businessRouter);
+app.get('/', async (req, res) => {
+    console.log("you are here", req.headers);
+});
 
 module.exports = app;
