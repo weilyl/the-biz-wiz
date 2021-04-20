@@ -2,7 +2,7 @@ const knexfile = require("./knexfile");
 
 const pg = require("pg-promise")();
 
-const db = NODE_ENV === 'production' ? pg({
+const db = process.env.NODE_ENV === 'production' ? pg({
   connectionString: process.env.DATABASE_URL
 }) : pg({
   host: process.env.test.HOST,
