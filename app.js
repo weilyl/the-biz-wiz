@@ -8,27 +8,27 @@ const cors = require("cors");
 
 const NODE_ENV = process.env.NODE_ENV;
 
-const whiteList = [
-  "http://localhost:3030",
-  "http://localhost:10645",
-  "https://biz-wiz.herokuapp.com/"
-];
+// const whiteList = [
+//   "http://localhost:3030",
+//   "http://localhost:10645",
+//   "https://biz-wiz.herokuapp.com/",
+// ];
 
 // const session = require('express-session');
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whiteList.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(
-        new Error("Not allowed by CORS,domain needs to be added to whitelist")
-      );
-    }
-  },
-};
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whiteList.indexOf(origin) !== -1) {
+//       callback(null, true);
+//     } else {
+//       callback(
+//         new Error("Not allowed by CORS,domain needs to be added to whitelist")
+//       );
+//     }
+//   },
+// };
 
 //middleware
-NODE_ENV === "development" ? app.use(cors()) : app.use(cors(corsOptions));
+// NODE_ENV === "development" ? app.use(cors()) : app.use(cors(corsOptions));
 
 app.use(express.urlencoded());
 app.use(express.json());
@@ -44,5 +44,8 @@ app.use(express.json());
 
 // routers
 app.use("/business", businessRouter);
+app.get('/', async (req, res) => {
+    console.log("you are here", req.headers);
+});
 
 module.exports = app;
