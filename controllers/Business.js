@@ -53,11 +53,12 @@ async function getABusiness(req, res) {
 
 //create one business and add to table
 async function createBusiness(req, res) {
-
+  
   let business = req.body;
   let hashedPassword;
   const saltRounds = 10;
-
+  console.log('create a business: ', business)
+  
   // validate business account info (needs work)
   if (!business) {
     return res.status(400).json({
@@ -92,7 +93,7 @@ async function createBusiness(req, res) {
     // })
 
   } catch (err) {
-    console.log("what about here")
+    console.log(`ERR CAUGHT: ${err.message}`)
     return res.status(400).send(err);
   }
   

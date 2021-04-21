@@ -4,9 +4,13 @@ exports.up = function (knex) {
     t.string("business_name").notNull();
     t.string("user_name").notNull().unique();
     t.string("password").notNull();
-    t.string("address").notNull();
-    t.string("type").notNull();
-    t.string("logo").notNull();
+    t.string("street_address").notNull();
+    t.string("city").notNull();
+    t.string("state").notNull();
+    t.integer("zip").notNull();
+    t.string("business_type").notNull();
+    t.string("acct_type").notNull();
+    t.string("logo");
   });
 };
 
