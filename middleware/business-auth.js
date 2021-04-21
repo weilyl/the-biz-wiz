@@ -7,7 +7,8 @@ async function generateToken (business) {
 
     const token = await jwt.sign(
         {
-            "business_id": business["id"]       
+            "business_id": business["id"],
+            "acct_type": business["acct_type"]      
         },
         secret,
         {
@@ -54,6 +55,7 @@ async function authorize (req, res, next) {
 
     if (decoded) {
         req["business_id"] = decoded["business_id"];
+        res.data.business_id = decoded["business_id"];
         console.log("business id: ", req["business_id"])
         next();
     }
