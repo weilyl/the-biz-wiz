@@ -1,38 +1,47 @@
 require("dotenv").config();
-const log = require("./middleware/log");
+// const log = require("./middleware/log");
 const express = require("express");
 const app = express();
 const businessRouter = require("./routes/business");
-
+// const session = require('express-session');
 const cors = require("cors");
+
 
 const NODE_ENV = process.env.NODE_ENV;
 
-// const whiteList = [
-//   "http://localhost:3030",
-//   "http://localhost:10645",
-//   "https://biz-wiz.herokuapp.com/",
-// ];
+const whiteList = [
+    "https://biz-wiz.herokuapp.com/",
+    "http://localhost:3030/",
+    "http://localhost:3000/",
+    "http://localhost:4000/"
+];
 
-// const session = require('express-session');
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whiteList.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(
-//         new Error("Not allowed by CORS,domain needs to be added to whitelist")
-//       );
-//     }
-//   },
-// };
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whiteList.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(
+        new Error("Not allowed by CORS; domain needs to be added to whitelist")
+      );
+    }
+  },
+};
+
 
 //middleware
 // NODE_ENV === "development" ? app.use(cors()) : app.use(cors(corsOptions));
 
+
 app.use(express.urlencoded());
 app.use(express.json());
 
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+// })
+
+app.use(cors())
 // set up sessions
 // app.use(
 //   session({
