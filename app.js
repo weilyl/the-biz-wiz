@@ -36,10 +36,12 @@ const corsOptions = {
 app.use(express.urlencoded());
 app.use(express.json());
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-})
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+// })
+
+app.use(cors())
 // set up sessions
 // app.use(
 //   session({
