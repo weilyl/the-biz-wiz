@@ -7,9 +7,9 @@ const db = process.env.NODE_ENV === 'production' ? pg({
 }) : pg({
   host: process.env.HOST,
   port: 5432,
-  database: process.env.test.DATABASE,
-  user: process.env.test.USER,
-  password: process.env.test.PASSWORD,
+  database: process.env.DATABASE,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
 });
 
 module.exports = db;
