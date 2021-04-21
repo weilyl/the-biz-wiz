@@ -11,7 +11,9 @@ const NODE_ENV = process.env.NODE_ENV;
 
 const whiteList = [
     "https://biz-wiz.herokuapp.com/",
-    "http://localhost:3030/"
+    "http://localhost:3030/",
+    "http://localhost:3000/",
+    "http://localhost:4000/"
 ];
 
 const corsOptions = {
@@ -38,6 +40,12 @@ app.use((req, res, next) => {
 app.use(express.urlencoded());
 app.use(express.json());
 
+// app.use((req, res, next) => {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     next();
+// })
+
+app.use(cors())
 // set up sessions
 // app.use(
 //   session({
