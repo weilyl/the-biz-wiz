@@ -6,7 +6,6 @@ const businessRouter = require("./routes/business");
 // const session = require('express-session');
 const cors = require("cors");
 
-
 const NODE_ENV = process.env.NODE_ENV;
 
 const whiteList = [
@@ -54,7 +53,7 @@ app.use(cors())
 // routers
 app.use("/business", businessRouter);
 app.get('/', async (req, res) => {
-    console.log("you are here", req.headers);
+    console.log("you are here, headers:", req.headers);
 });
 
 module.exports = app;
