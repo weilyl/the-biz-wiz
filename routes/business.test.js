@@ -1,20 +1,22 @@
 const app = require("../app");
 const request = require("supertest");
 const server = request(app);
+
 describe("Businesses TESTS", () => {
   it("Register A Business", async (done) => {
     const data = {
-
       business_name: "Testing NEW 00322",
       user_name: "Testing api NEW00322",
-
       password: "biz_ 005",
       address: "biz st",
       type: "biz",
       logo: "img.com",
     };
-    await server.post("/business/register").send(data).expect(200);
-    done();
+    await server
+      .post("/business/register")
+      .send(data)
+      .expect(201)
+      done();
   });
 
   it("Get all Businesses", async (done) => {
@@ -37,9 +39,12 @@ describe("Businesses TESTS", () => {
       user_name: "Testing 007",
       password: "biz_ 005",
     };
-    await server.post("/business/login").send(user).expect(200);
+    await server
+      .post("/business/login")
+      .send(user)
+      .expect(202) 
     done();
-  });
+  })
 
   it("Updates A Businesses info", async (done) => {
     const data = {
@@ -50,7 +55,7 @@ describe("Businesses TESTS", () => {
       type: "small biz",
       logo: "img.com",
     };
-    await server.put("/business/home/3").send(data).expect(200);
+    await server.put("/business/home/3").send(data).expect(202);
     done();
   });
 
@@ -80,7 +85,7 @@ describe("Posts TESTS", () => {
     done();
   });
 
-  it("Edits a Post", async (done) => {
+  it.only("Edits a Post", async (done) => {
     const data = {
       content: "updating post 111",
     };
@@ -120,4 +125,5 @@ describe("Comments TESTS", () => {
     await server.delete("/business/posts/post/1/comment/6").expect(200);
     done();
   });
+
 });

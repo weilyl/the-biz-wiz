@@ -1,9 +1,11 @@
 require("dotenv").config();
-const log = require("./middleware/log");
+// const log = require("./middleware/log");
 const express = require("express");
 const app = express();
 const businessRouter = require("./routes/business");
+// const session = require('express-session');
 const cors = require("cors");
+
 
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -54,4 +56,5 @@ app.use("/business", businessRouter);
 app.get('/', async (req, res) => {
     console.log("you are here", req.headers);
 });
+
 module.exports = app;
