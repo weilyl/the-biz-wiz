@@ -80,7 +80,7 @@ async function createBusiness(req, res) {
   
   try {
     const businessID = await db.one(
-      "INSERT INTO businesses (business_name, user_name, password, address, type, logo) VALUES (${business_name}, ${user_name}, ${password}, ${address}, ${type}, ${logo}) RETURNING id",
+      "INSERT INTO businesses (business_name, first_name, last_name, user_name, email, password, street_address, city, state, zip, business_type, acct_type, logo) VALUES (${business_name}, ${first_name}, ${last_name}, ${user_name}, ${email}, ${password}, ${street_address}, ${city}, ${state}, ${zip}, ${business_type}, ${acct_type}, ${logo}) RETURNING id",
       business
     );
       
