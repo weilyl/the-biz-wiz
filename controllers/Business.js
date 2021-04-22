@@ -15,15 +15,15 @@ async function getAllBusinesses(req, res) {
 
 //get business by location
 async function locateBusiness(req, res) {
-  const address = JSON.stringify(req.params.address);
+  
   try {
     const businesses = await db.any(
-      "SELECT * FROM businesses WHERE address=$1",
-      address
+      "SELECT * FROM businesses WHERE street_address=${street_address} AND city=${city} AND state=${state} AND zip=${zip}",
+      req.body
     );
-    return res.json(businesses);
+    return res.status(200).json(businesses);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err.message);
   }
 }
 
