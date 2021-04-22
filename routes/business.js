@@ -85,6 +85,7 @@ router.get("/find/?search=:query", authorize, getBusinessByName);
 router.get("/category/:type", businessByType);
 
 // get all businesses by location
+router.post("/location-search", locateBusiness);
 
 // get all businesses by type & location
 router.get("/category/:type/distance/?rad=:distance");
