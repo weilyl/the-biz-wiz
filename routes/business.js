@@ -56,7 +56,7 @@ router.use((req, res, next) => {
 router.post("/register", createBusiness);
 
 // business login
-router.post("/login", authorize, loginBusiness);
+router.post("/login", loginBusiness);
 
 router.get("/logout", async (req, res) => {
   req.session.user = {};
