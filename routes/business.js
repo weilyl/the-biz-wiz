@@ -79,7 +79,7 @@ router.patch("/home/update/:business_id?", authorize, updateBusiness);
 router.get("/posts/post/:post_id", authorize, getAPost);
 
 // search engine for business name, description
-router.get("/find/?search=:query", authorize, getBusinessByName);
+router.get("/find/?search=:query", getBusinessByName);
 
 // get all businesses by type
 router.get("/category/:type", businessByType);
@@ -91,7 +91,7 @@ router.post("/location-search", locateBusiness);
 router.get("/category/:type/distance/?rad=:distance");
 
 // business makes a post
-router.post("/create-post/:business_id", authorize, createPost);
+router.post("/create-post", authorize, createPost);
 
 // get all posts belonging to a business
 router.get("/home/posts/:business_id/all", authorize, getBusinessPosts);
