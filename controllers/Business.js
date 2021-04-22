@@ -18,7 +18,7 @@ async function locateBusiness(req, res) {
   
   try {
     const businesses = await db.any(
-      "SELECT * FROM businesses WHERE (street_address=${street_address}, city=${city}, state=${state}, zip=${zip})",
+      "SELECT * FROM businesses WHERE street_address=${street_address} AND city=${city} AND state=${state} AND zip=${zip}",
       req.body
     );
     return res.status(200).json(businesses);
