@@ -174,6 +174,20 @@ async function updateBusiness(req, res) {
 
 }
 
+// grabs businesses by a type
+// /business/category/:type
+async function businessByType (req, res) {
+  const type = req.params.type
+  try {
+    const businesses = await db.any(
+      "SELECT * FROM businesses WHERE business_type=$1", type
+    )
+    res.status(200).json(businesses)
+  } catch (err) {
+    return res.status(404).send(err.message)
+  }
+}
+
 //delete a business from database
 async function deleteBusiness(req, res) {
 
@@ -197,5 +211,6 @@ module.exports = {
   createBusiness,
   loginBusiness,
   updateBusiness,
+  businessByType,
   deleteBusiness,
 };
