@@ -7,6 +7,7 @@ const {
   getAllBusinesses,
   locateBusiness,
   getBusinessByName,
+  businessByType,
   getABusiness,
   createBusiness,
   loginBusiness,
@@ -81,7 +82,7 @@ router.get("/posts/post/:post_id", authorize, getAPost);
 router.get("/find/?search=:query", authorize, getBusinessByName);
 
 // get all businesses by type
-router.get("/category/:type");
+router.get("/category/:type", businessByType);
 
 // get all businesses by location
 
