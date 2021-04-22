@@ -42,15 +42,17 @@ async function createPost(req, res) {
   const id = parseInt(req.business_id, 10);
   const content = req.body.content;
   const info = {
+    title: req.body.title,
     content: content,
     business_id: id,
   };
 
   try {
-    await db.none(
-      "INSERT INTO posts (content, business_id) VALUES (${content},${business_id})",
+    const post = await db.one(
+      "INSERT INTO posts (content, business_id, title) VALUES (${content},${business_id}, ${title}) RETURNING *",
       info
     );
+    res.data["post_id"] = post.id;
     return res.status(200).json({ message: "sucessfully created" });
   } catch (err) {
     res.status(500).send(err);
