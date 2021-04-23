@@ -31,7 +31,7 @@ async function locateBusiness(req, res) {
 async function getBusinessByName(req, res) {
   try {
     const results = await db.any(
-      "SELECT * FROM businesses WHERE business_name LIKE '%${search}%'",
+      "SELECT * FROM businesses WHERE business_name LIKE '%${query}%'",
       req.params
     );
     return res.status(200).json(results);
