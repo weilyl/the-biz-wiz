@@ -42,7 +42,7 @@ async function getBusinessByName(req, res) {
 
 //get a single business from table matching id
 async function getABusiness(req, res) {
-  const id = parseInt(res["business_id"], 10);
+  const id = parseInt(req["business_id"], 10);
   try {
     const business = await db.one("SELECT * FROM businesses where id = $1", id);
     return res.json(business);
