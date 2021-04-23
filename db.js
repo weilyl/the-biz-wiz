@@ -3,9 +3,9 @@ const knexfile = require("./knexfile");
 const pg = require("pg-promise")();
 
 const db = 
-process.env.NODE_ENV === 'production' ? pg({
-  connectionString: process.env.DATABASE_URL
-}) : 
+// process.env.NODE_ENV === 'production' ? pg({
+//   connectionString: process.env.DATABASE_URL
+// }) : 
 pg({
   host: process.env.HOST,
   port: 5432,
