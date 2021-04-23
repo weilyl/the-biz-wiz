@@ -55,7 +55,7 @@ async function authorize (req, res, next) {
 
     if (decoded) {
         req["business_id"] = decoded["business_id"];
-        res[business_id] = decoded["business_id"];
+        res["business_id"] = decoded["business_id"];
         console.log("business id: ", req["business_id"])
         next();
     }
