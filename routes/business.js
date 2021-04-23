@@ -34,6 +34,8 @@ const {
   deletePost,
 } = require("../controllers/Posts");
 
+const matchPostsAndComments = require("../controllers/Searches");
+
 //middleware
 router.use(
   session({
@@ -80,6 +82,9 @@ router.get("/posts/post/:post_id", authorize, getAPost);
 
 // search engine for business name, description
 router.get("/find/?search=:query", getBusinessByName);
+
+// search engine for posts, comments
+router.get("/find/?content=:query", matchPostsAndComments);
 
 // get all businesses by type
 router.get("/category/:type", businessByType);
