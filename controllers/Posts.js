@@ -1,6 +1,5 @@
 const { json } = require("express");
 const db = require("../db");
-const { getPostComments } = require("./Comments");
 
 //get all posts in database
 async function getEveryPost(req, res) {
@@ -23,7 +22,7 @@ async function getBusinessPosts(req, res) {
     );
     return res.json(posts);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send(err.message);
   }
 }
 
@@ -32,9 +31,10 @@ async function getAPost(req, res) {
   const post_id = parseInt(req.params.post_id, 10);
   try {
     const post = await db.one("SELECT * FROM posts WHERE id = $1", post_id);
+    res["post_id"] = post_id;
     return res.status(200).json(post);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send(err.message);
   }
 }
 //create a post
@@ -52,7 +52,7 @@ async function createPost(req, res) {
       "INSERT INTO posts (content, business_id, title) VALUES (${content},${business_id}, ${title}) RETURNING *",
       info
     );
-    res.data["post_id"] = post.id;
+    res["post_id"] = post.id;
     return res.status(200).json({ message: "sucessfully created" });
   } catch (err) {
     res.status(500).send(err.message);
@@ -63,10 +63,12 @@ async function createPost(req, res) {
 async function deletePost(req, res) {
   const post_id = parseInt(req.params.post_id, 10);
   try {
+
     await db.none("DELETE FROM posts where id = $1 AND business_id = $2", [post_id, req["business_id"]]);
+
     return res.status(200).json({ message: "Post Deleted" });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send(err.message);
   }
 }
 
@@ -87,10 +89,14 @@ async function updatePost(req, res) {
         req.body.content,
         post_id,
       ]);
+      
+      res[post_id] = post_id
+
       return res.status(200).json({ message: "updated post" });
     } else {
       return res.status(404).json({
-        message: "Permission denied or post not found"
+        message: "Permission denied or post not found",
+        error: err.message
       })
     }
   } catch (err) {
