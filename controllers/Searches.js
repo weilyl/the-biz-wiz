@@ -17,7 +17,8 @@ async function matchPostsAndComments(req, res) {
 
         return res.status(200).send({
             posts: all,
-            comments: matchingComments
+            comments: matchingComments,
+            instructions: ""
         });
 
     } catch(err) {
