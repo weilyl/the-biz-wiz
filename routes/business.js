@@ -72,10 +72,10 @@ router.get("/logout", async (req, res) => {
 router.get("/all", getAllBusinesses);
 
 // business own profile
-router.get("/home/profile/:business_id?", authorize, getABusiness);
+router.get("/home/profile", authorize, getABusiness);
 
 // update business profile
-router.patch("/home/update/:business_id?", authorize, updateBusiness);
+router.patch("/home/update", authorize, updateBusiness);
 
 // get one post belonging to a business (& comments on that post
 router.get("/posts/post/:post_id", authorize, getAPost);
@@ -99,13 +99,13 @@ router.get("/category/:type/distance/?rad=:distance");
 router.post("/create-post", authorize, createPost);
 
 // get all posts belonging to a business
-router.get("/home/posts/:business_id/all", authorize, getBusinessPosts);
+router.get("/home/posts/all", authorize, getBusinessPosts);
 
 // get all comments on a post
 router.get("/posts/post/:post_id/comments/all", authorize, getPostComments);
 
 // business comments on a post
-router.post("/posts/post/:post_id/comment/create/:business_id", authorize, createComment);
+router.post("/posts/post/:post_id/comment/create", authorize, createComment);
 
 // business updates a post
 router.patch("/posts/post/:post_id/edit", authorize, updatePost);
@@ -114,7 +114,7 @@ router.patch("/posts/post/:post_id/edit", authorize, updatePost);
 router.patch("/posts/post/:post_id/comment/:comment_id", authorize, updateComment);
 
 // delete a business
-router.delete("/home/delete-business/:business_id", authorize, deleteBusiness);
+router.delete("/home/delete-business", authorize, deleteBusiness);
 
 // business deletes a post
 router.delete("/posts/post/:post_id/remove", authorize, deletePost);
