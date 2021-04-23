@@ -27,7 +27,7 @@ async function getPostComments(req, res) {
 
 //get all comments for a business
 async function getBusinessComments(req, res) {
-  const business_id = parseInt(req.params.business_id, 10);
+  const business_id = parseInt(req["business_id"], 10);
   try {
     let comments = await db.any(
       "SELECT * FROM comments WHERE business_id=$1",
