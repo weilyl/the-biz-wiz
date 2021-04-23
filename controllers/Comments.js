@@ -17,6 +17,8 @@ async function getPostComments(req, res) {
       "SELECT * FROM comments WHERE post_id=$1",
       post_id
     );
+
+    res["post_id"] = post_id;
     return res.status(200).json(comments);
   } catch (err) {
     res.status(500).send(err);
@@ -45,6 +47,9 @@ async function getAComment(req, res) {
       "SELECT * FROM comments WHERE id=$1",
       comment_id
     );
+    
+    res["comment_id"] = comment_id;
+
     return res.status(200).json(comment);
   } catch (err) {
     res.status(500).send({
@@ -62,11 +67,12 @@ async function createComment(req, res) {
   };
 
   try {
-    await db.none(
-      "INSERT INTO comments (content,post_id,business_id) VALUES (${content},${post_id},${business_id})",
+    const comment_id = await db.one(
+      "INSERT INTO comments (content,post_id,business_id) VALUES (${content},${post_id},${business_id}) RETURNING id",
       data
     );
 
+    res["comment_id"] = comment_id;
     return res.json({
       message: "success",
     });
@@ -87,7 +93,9 @@ async function updateComment(req, res) {
       comment_id,
       req["business_id"]
     ]);
+    res["comment_id"] = comment_id;
     return res.status(200).json({ message: "updates a comment" });
+  
   } catch (err) {
     res.status(500).send({message: err.message});
   }
