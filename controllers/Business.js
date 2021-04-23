@@ -79,10 +79,12 @@ async function createBusiness(req, res) {
   let token;
   
   try {
-    const businessID = await db.one(
-      "INSERT INTO businesses (business_name, first_name, last_name, user_name, email, password, street_address, city, state, zip, business_type, acct_type, logo) VALUES (${business_name}, ${first_name}, ${last_name}, ${user_name}, ${email}, ${password}, ${street_address}, ${city}, ${state}, ${zip}, ${business_type}, ${acct_type}, ${logo}) RETURNING id",
+    await db.none(
+      "INSERT INTO businesses (business_name, first_name, last_name, user_name, email, password, street_address, city, state, zip, business_type, acct_type, logo) VALUES (${business_name}, ${first_name}, ${last_name}, ${user_name}, ${email}, ${password}, ${street_address}, ${city}, ${state}, ${zip}, ${business_type}, ${acct_type}, ${logo})",
       business
     );
+
+    const businessID = await db.one("SELECT id, acct_type FROM businesses WHERE user_name=${user_name}", business)
       
     console.log("businessID ", businessID)
       
