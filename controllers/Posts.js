@@ -55,7 +55,7 @@ async function createPost(req, res) {
     res.data["post_id"] = post.id;
     return res.status(200).json({ message: "sucessfully created" });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send(err.message);
   }
 }
 
