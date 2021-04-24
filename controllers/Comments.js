@@ -27,7 +27,7 @@ async function getPostComments(req, res) {
 
 //get all comments for a business
 async function getBusinessComments(req, res) {
-  const business_id = parseInt(req["business_id"], 10);
+  const business_id = parseInt(res["business_id"], 10);
   try {
     let comments = await db.any(
       "SELECT * FROM comments WHERE business_id=$1",
@@ -63,7 +63,7 @@ async function createComment(req, res) {
   const data = {
     content: req.body.content,
     post_id: req.params.post_id,
-    business_id: req.business_id,
+    business_id: res.business_id,
   };
 
   try {
@@ -91,7 +91,7 @@ async function updateComment(req, res) {
     await db.none("UPDATE comments SET content=$1 WHERE id=$2 AND business_id = $3", [
       req.body.content,
       comment_id,
-      req["business_id"]
+      res["business_id"]
     ]);
     res["comment_id"] = comment_id;
     return res.status(200).json({ message: "updates a comment" });
@@ -106,14 +106,14 @@ async function deleteComment(req, res) {
 
   try {
 
-    const isCommentOwner = await db.one('SELECT EXISTS(SELECT * FROM comments WHERE id = $1 AND business_id = $2)', [comment_id, req["business_id"]]);
+    const isCommentOwner = await db.one('SELECT EXISTS(SELECT * FROM comments WHERE id = $1 AND business_id = $2)', [comment_id, res["business_id"]]);
 
     const postID = await db.one('SELECT * FROM comments WHERE id = $1 RETURNING post_id', comment_id);
 
-    const isPostOwner = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 AND business_id = $2)', [postID, req["business_id"]] )
+    const isPostOwner = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 AND business_id = $2)', [postID, res["business_id"]] )
 
     if (isCommentOwner) {
-      await db.none("DELETE FROM comments WHERE id=$1 AND business_id=$2", [comment_id, req["business_id"]]);
+      await db.none("DELETE FROM comments WHERE id=$1 AND business_id=$2", [comment_id, res["business_id"]]);
 
       return res.status(200).json({
         message: "comment deleted"
