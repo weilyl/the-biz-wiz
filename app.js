@@ -15,22 +15,7 @@ const whiteList = [
     "http://localhost:4000/"
 ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whiteList.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(
-        new Error("Not allowed by CORS; domain needs to be added to whitelist")
-      );
-    }
-  },
-};
-
-
 //middleware
-// NODE_ENV === "development" ? app.use(cors()) : app.use(cors(corsOptions));
-
 
 app.use(express.urlencoded());
 app.use(express.json());
@@ -41,14 +26,6 @@ app.use(express.json());
 // })
 
 app.use(cors())
-// set up sessions
-// app.use(
-//   session({
-//     secret: process.env.SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
 
 // routers
 app.use("/business", businessRouter);

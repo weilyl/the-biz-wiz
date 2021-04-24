@@ -84,7 +84,7 @@ router.get("/posts/post/:post_id", authorize, getAPost);
 router.get("/find/name/:query", getBusinessByName);
 
 // search engine for posts, comments
-router.get("/find/content/?content=:query", matchPostsAndComments);
+router.get("/find/content", authorize, matchPostsAndComments);
 
 // get all businesses by type
 router.get("/category/:type", businessByType);
