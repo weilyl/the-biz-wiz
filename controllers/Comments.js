@@ -103,6 +103,7 @@ async function updateComment(req, res) {
 //delete a comment
 async function deleteComment(req, res) {
   let comment_id = parseInt(req.params.comment_id, 10);
+  let post_id = parseInt(req.params.post_id, 10)
 
   try {
 
@@ -110,11 +111,7 @@ async function deleteComment(req, res) {
 
     console.log("is user the comment owner? ", isCommentOwner)
 
-    const postID = await db.one('SELECT * FROM comments WHERE id = $1 RETURNING post_id', comment_id);
-
-    console.log("post ID: ", postID)
-
-    const isPostOwner = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 AND business_id = $2)', [postID, res["business_id"]] )
+    const isPostOwner = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 AND business_id = $2)', [post_id, res["business_id"]]);
 
     console.log("is user the post owner? ", isPostOwner)
 
@@ -152,7 +149,7 @@ async function deleteComment(req, res) {
   } catch (err) {
 
     console.log("you dont effed up")
-    
+
     res.status(500).send({
       message: err.message
     });
