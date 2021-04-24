@@ -108,28 +108,51 @@ async function deleteComment(req, res) {
 
     const isCommentOwner = await db.one('SELECT EXISTS(SELECT * FROM comments WHERE id = $1 AND business_id = $2)', [comment_id, res["business_id"]]);
 
+    console.log("is user the comment owner? ", isCommentOwner)
+
     const postID = await db.one('SELECT * FROM comments WHERE id = $1 RETURNING post_id', comment_id);
+
+    console.log("post ID: ", postID)
 
     const isPostOwner = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 AND business_id = $2)', [postID, res["business_id"]] )
 
+    console.log("is user the post owner? ", isPostOwner)
+
     if (isCommentOwner) {
+
+      console.log("user is comment owner")
+
       await db.none("DELETE FROM comments WHERE id=$1 AND business_id=$2", [comment_id, res["business_id"]]);
+
+      console.log("comment deleted by comment owner")
 
       return res.status(200).json({
         message: "comment deleted"
       });
+
     } else if (isPostOwner) {
+
+      console.log("user is post owner")
+
       await db.none("DELETE FROM comments WHERE id=$1", comment_id);
+
+      console.log("comment deleted by post owner)")
 
       return res.status(200).json({
         message: "comment deleted"
       });      
+
     } else {
+      console.log("this comment is not yours to delete")
       return res.status(401).json({
         message: "You do not have permission to delete this comment"
       });
+
     }
   } catch (err) {
+
+    console.log("you dont effed up")
+    
     res.status(500).send({
       message: err.message
     });
