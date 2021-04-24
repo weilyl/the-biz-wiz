@@ -117,7 +117,7 @@ async function loginBusiness(req, res) {
     })
   } else {
     business = await db.one('SELECT * FROM businesses WHERE user_name=${user_name}', req.body)
-    console.log(business.body)
+    console.log(business)
   }
 
   let match;
