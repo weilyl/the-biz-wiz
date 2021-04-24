@@ -115,6 +115,8 @@ async function deleteComment(req, res) {
 
     console.log("is user the post owner? ", isPostOwner)
 
+    console.log("is user the post owner? ", isPostOwner)
+
     if (isCommentOwner) {
 
       console.log("user is comment owner")
