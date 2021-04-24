@@ -13,7 +13,7 @@ async function getEveryPost(req, res) {
 
 //get all posts for a business
 async function getBusinessPosts(req, res) {
-  const business_id = parseInt(req["business_id"], 10);
+  const business_id = parseInt(res["business_id"], 10);
 
   try {
     const posts = await db.any(
