@@ -7,7 +7,7 @@ async function matchPostsAndComments(req, res) {
         console.log(query)
 
         // union of posts with matching content and posts with matching comments
-        
+
         const all = await db.any(
             `SELECT * 
             FROM 
