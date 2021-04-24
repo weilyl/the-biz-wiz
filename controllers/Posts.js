@@ -39,7 +39,7 @@ async function getAPost(req, res) {
 }
 //create a post
 async function createPost(req, res) {
-  const id = parseInt(req.business_id, 10);
+  const id = parseInt(res.business_id, 10);
   const content = req.body.content;
   const info = {
     title: req.body.title,
@@ -64,7 +64,7 @@ async function deletePost(req, res) {
   const post_id = parseInt(req.params.post_id, 10);
   try {
 
-    await db.none("DELETE FROM posts where id = $1 AND business_id = $2", [post_id, req["business_id"]]);
+    await db.none("DELETE FROM posts where id = $1 AND business_id = $2", [post_id, res["business_id"]]);
 
     return res.status(200).json({ message: "Post Deleted" });
   } catch (err) {
@@ -80,7 +80,7 @@ async function updatePost(req, res) {
 
   try {
     const exists = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE business_id = $1 and id = $2)', [
-      req["business_id"], post_id
+      res["business_id"], post_id
     ])
     console.log(exists)
 
