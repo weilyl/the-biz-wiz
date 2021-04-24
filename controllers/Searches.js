@@ -7,18 +7,27 @@ async function matchPostsAndComments(req, res) {
         console.log(query)
 
         // union of posts with matching content and posts with matching comments
+
         const all = await db.any(
-            `SELECT * FROM 
-            (SELECT * 
-            FROM posts AS p1 
-            WHERE p1.content LIKE '%${query}%' 
-            OR p1.title LIKE '%${query}%' 
+            `SELECT * 
+            FROM 
+            (
+            SELECT id, business_id, title, content 
+            FROM posts 
+            WHERE content 
+            LIKE '%${query}%' 
+            OR title 
+            LIKE '%${query}%'
             UNION 
-            SELECT * FROM posts AS p2
-            JOIN comments AS c2 
+            (
+            SELECT p2.id, p2.business_id, p2.title, p2.content 
+            FROM posts AS p2
+            LEFT JOIN comments AS c2 
             ON (p2.id = c2.post_id)
-            WHERE p2.content LIKE '%${query}%') 
-            ORDER BY created_at DESC`);
+            WHERE c2.content LIKE '%${query}%'
+            ) 
+            ) AS p; 
+            `);
 
         ////// posts that match input
         const matchingPosts = await db.any(`SELECT * FROM posts WHERE content LIKE '%${query}%' OR title LIKE '%${query}%' ORDER BY created_at DESC;`)
