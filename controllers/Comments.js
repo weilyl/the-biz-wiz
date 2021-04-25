@@ -35,7 +35,7 @@ async function getBusinessComments(req, res) {
     );
     return res.json(comments);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({message: err.message});
   }
 }
 
@@ -115,7 +115,7 @@ async function deleteComment(req, res) {
 
     console.log("is user the post owner? ", isPostOwner)
 
-    if (isCommentOwner) {
+    if (isCommentOwner.exists) {
 
       console.log("user is comment owner")
 
@@ -127,7 +127,7 @@ async function deleteComment(req, res) {
         message: "comment deleted"
       });
 
-    } else if (isPostOwner) {
+    } else if (isPostOwner.exists) {
 
       console.log("user is post owner")
 
