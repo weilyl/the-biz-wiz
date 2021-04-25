@@ -14,17 +14,17 @@ async function matchPostsAndComments(req, res) {
             (
             SELECT id, business_id, title, content 
             FROM posts 
-            WHERE content 
-            LIKE '%${query}%' 
-            OR title 
-            LIKE '%${query}%'
+            WHERE lower(content) 
+            LIKE '%${query.toLowerCase()}%' 
+            OR lower(title) 
+            LIKE '%${query.toLowerCase()}%'
             UNION 
             (
             SELECT p2.id, p2.business_id, p2.title, p2.content 
             FROM posts AS p2
             LEFT JOIN comments AS c2 
             ON (p2.id = c2.post_id)
-            WHERE c2.content LIKE '%${query}%'
+            WHERE lower(c2.content) LIKE '%${query.toLowerCase()}%'
             ) 
             ) AS p; 
             `);
