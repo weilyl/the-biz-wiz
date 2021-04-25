@@ -13,7 +13,7 @@ const {
   createBusiness,
   loginBusiness,
   updateBusiness,
-  deleteBusiness,
+  deleteBusiness
 } = require("../controllers/Business");
 
 const {
@@ -24,6 +24,7 @@ const {
   createComment,
   updateComment,
   deleteComment,
+  checkCommentOwner
 } = require("../controllers/Comments");
 
 const {
@@ -33,6 +34,7 @@ const {
   createPost,
   updatePost,
   deletePost,
+  checkPostOwner
 } = require("../controllers/Posts");
 
 const matchPostsAndComments = require("../controllers/Searches");
@@ -119,6 +121,12 @@ router.patch("/posts/post/:post_id/edit", authorize, updatePost);
 
 // business updates a comment
 router.patch("/posts/post/:post_id/comment/:comment_id", authorize, updateComment);
+
+// check if logged in as comment owner
+router.get("/comment/author/:comment_id", authorize, checkCommentOwner);
+
+// check if logged in as post owner
+router.get("/post/author/:post_id", authorize, checkPostOwner);
 
 // delete a business
 router.delete("/home/delete-business", authorize, deleteBusiness);
