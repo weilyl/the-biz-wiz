@@ -112,6 +112,7 @@ async function deleteComment(req, res) {
     console.log("is user the comment owner? ", isCommentOwner)
 
     const isPostOwner = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 AND business_id = $2)', [post_id, res["business_id"]]);
+
     console.log("is user the post owner? ", isPostOwner)
 
     if (isCommentOwner) {
