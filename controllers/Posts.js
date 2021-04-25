@@ -118,6 +118,7 @@ async function checkPostOwner(req, res) {
     console.log("is user the post owner? ", isPostOwner)
 
     return res.status(200).json(isPostOwner)
+
     
   } catch (err) {
 
