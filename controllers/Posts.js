@@ -79,12 +79,13 @@ async function updatePost(req, res) {
   console.log(`post ID: ${post_id}`)
 
   try {
-    const exists = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE business_id = $1 and id = $2)', [
-      res["business_id"], post_id
+    const exists = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 and business_id = $2)', [
+      post_id, res["business_id"]
     ])
     console.log(exists)
 
     if (exists) {
+      
       await db.one("UPDATE posts SET content = $1 WHERE id = $2 RETURNING id", [
         req.body.content,
         post_id,
@@ -106,11 +107,31 @@ async function updatePost(req, res) {
   }
 }
 
+async function checkPostOwner(req, res) {
+
+  try {
+
+    const post_id = parseInt(req.params.post_id, 10);
+  
+    const isPostOwner = await db.one('SELECT EXISTS(SELECT * FROM posts WHERE id = $1 AND business_id = $2)', [post_id, res["business_id"]]);
+  
+    console.log("is user the post owner? ", isPostOwner)
+
+    return res.status(200).json(isPostOwner.exists)
+    
+  } catch (err) {
+
+    return res.status(500).send({message: err.message})
+
+  }
+}
+
 module.exports = {
   getAPost,
   getBusinessPosts,
   getEveryPost,
   createPost,
   updatePost,
+  checkPostOwner,
   deletePost,
 };
