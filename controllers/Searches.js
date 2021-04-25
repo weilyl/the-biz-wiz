@@ -49,7 +49,7 @@ async function matchPostsAndComments(req, res) {
 
         console.log(all)
 
-        return res.status(302).json(all);
+        return res.status(200).json(all);
 
     } catch(err) {
 
