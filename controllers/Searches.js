@@ -2,6 +2,7 @@ const db = require("../db");
 
 async function matchPostsAndComments(req, res) {
     try{
+        
         // route /find/content/?content=:query
         const query = req.query.content
         console.log(query)

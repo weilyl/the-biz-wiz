@@ -100,6 +100,7 @@ async function updateComment(req, res) {
     res.status(500).send({message: err.message});
   }
 }
+
 //delete a comment
 async function deleteComment(req, res) {
   let comment_id = parseInt(req.params.comment_id, 10);
@@ -156,6 +157,28 @@ async function deleteComment(req, res) {
   }
 }
 
+// check if comment owner
+async function checkCommentOwner(req, res) {
+
+  let comment_id = parseInt(req.params.comment_id, 10);
+
+  try {
+
+    const isCommentOwner = await db.one('SELECT EXISTS(SELECT * FROM comments WHERE id = $1 AND business_id = $2)', [comment_id, res["business_id"]]);
+
+    console.log("is user the comment owner? ", isCommentOwner)
+
+    return res.status(200).json(isCommentOwner.exists)
+
+  } catch (err) {
+
+    return res.status(500).send({message: err.message});
+
+  }
+
+
+}
+
 module.exports = {
   getAComment,
   getAllComments,
@@ -164,4 +187,5 @@ module.exports = {
   createComment,
   updateComment,
   deleteComment,
+  checkCommentOwner
 };
