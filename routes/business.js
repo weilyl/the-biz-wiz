@@ -9,6 +9,7 @@ const {
   getBusinessByName,
   businessByType,
   getABusiness,
+  getBusinessInfo,
   createBusiness,
   loginBusiness,
   updateBusiness,
@@ -74,6 +75,9 @@ router.get("/all", getAllBusinesses);
 // business own profile
 router.get("/home/profile", authorize, getABusiness);
 
+// get info for a particular business
+router.post("/business-info/:business_id?", getBusinessInfo);
+
 // update business profile
 router.patch("/home/update", authorize, updateBusiness);
 
@@ -100,6 +104,9 @@ router.post("/create-post", authorize, createPost);
 
 // get all posts belonging to a business
 router.get("/home/posts/all", authorize, getBusinessPosts);
+
+// get all comments made by a business
+router.get("/home/comments/all", authorize, getBusinessComments);
 
 // get all comments on a post
 router.get("/posts/post/:post_id/comments/all", authorize, getPostComments);
