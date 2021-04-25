@@ -85,7 +85,7 @@ async function updatePost(req, res) {
     console.log(exists)
 
     if (exists) {
-      
+
       await db.one("UPDATE posts SET content = $1 WHERE id = $2 RETURNING id", [
         req.body.content,
         post_id,
@@ -117,7 +117,8 @@ async function checkPostOwner(req, res) {
   
     console.log("is user the post owner? ", isPostOwner)
 
-    return res.status(200).json(isPostOwner.exists)
+    return res.status(200).json(isPostOwner)
+
     
   } catch (err) {
 

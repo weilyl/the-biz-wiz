@@ -168,7 +168,7 @@ async function checkCommentOwner(req, res) {
 
     console.log("is user the comment owner? ", isCommentOwner)
 
-    return res.status(200).json(isCommentOwner.exists)
+    return res.status(200).json(isCommentOwner)
 
   } catch (err) {
 
