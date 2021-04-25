@@ -47,7 +47,19 @@ async function getABusiness(req, res) {
     const business = await db.one("SELECT * FROM businesses where id = $1", id);
     return res.json(business);
   } catch (err) {
-    return res.status(500).json(err);
+    return res.status(500).json({message: err.message});
+  }
+}
+
+async function getBusinessInfo(req, res) {
+  const businessID = res.body["business_id"] ? parseInt(res.body["business_id"], 10) : parseInt(req.params["business_id"]);
+
+  try {
+    const business = await db.one("SELECT * FROM businesses where id = $1", businessID);
+    return res.json(business);
+    
+  } catch (err) {
+    return res.status(500).json({message: err.message})
   }
 }
 
@@ -211,6 +223,7 @@ module.exports = {
   locateBusiness,
   getBusinessByName,
   getABusiness,
+  getBusinessInfo,
   createBusiness,
   loginBusiness,
   updateBusiness,
