@@ -34,7 +34,7 @@ async function getBusinessByName(req, res) {
   try {
     console.log("inside try")
     const results = await db.any(
-      `SELECT * FROM businesses WHERE business_name LIKE '%${query}%';`
+      `SELECT * FROM businesses WHERE lower(business_name) LIKE '%${query.toLowerCase()}%';`
     );
     console.log("results: ", results);
     return res.status(200).json(results);
