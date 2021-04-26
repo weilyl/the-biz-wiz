@@ -17,7 +17,6 @@ async function getPostComments(req, res) {
     //   "SELECT * FROM comments WHERE post_id=$1",
     //   post_id
     // );
-    console.log("comments")
 
     console.log("comments")
 
