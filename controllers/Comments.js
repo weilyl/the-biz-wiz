@@ -22,7 +22,7 @@ async function getPostComments(req, res) {
       `SELECT * 
       FROM comments as c 
       WHERE post_id=${post_id} 
-      LEFT JOIN businesses as b 
+      JOIN businesses as b 
       ON (c.business_id = b.id)`
     , post_id);
 
