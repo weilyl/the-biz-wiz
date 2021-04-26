@@ -21,10 +21,12 @@ async function getPostComments(req, res) {
     const commentsEnhanced = await db.any(
       `SELECT * 
       FROM comments as c 
-      WHERE post_id=${post_id} 
-      JOIN businesses as b 
-      ON (c.business_id = b.id)`
+      FULL OUTER JOIN businesses as b 
+      ON (c.business_id = b.id)
+      WHERE c.post_id=${post_id} `
     , post_id);
+
+    console.log(commentsEnhanced)  
 
     return res.status(200).json(commentsEnhanced);
   } catch (err) {
