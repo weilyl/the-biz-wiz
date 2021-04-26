@@ -32,8 +32,9 @@ async function getBusinessByName(req, res) {
   const query = `%${req.params.query}%`
   try {
     const results = await db.any(
-      `SELECT * FROM businesses WHERE business_name LIKE '%${query}%';`
+      `SELECT * FROM businesses WHERE business_name LIKE '${query}';`
     );
+    console.log("results: ", results);
     return res.status(200).json(results);
   } catch (err) {
     res.status(500).json(err.message);
