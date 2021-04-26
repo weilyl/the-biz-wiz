@@ -52,9 +52,8 @@ async function getABusiness(req, res) {
 }
 
 async function getBusinessInfo(req, res) {
-  
   const businessID = req.body["business_id"] ? parseInt(req.body["business_id"], 10) : parseInt(req.params["business_id"]);
-  
+
   try {
     const business = await db.one("SELECT * FROM businesses where id = $1", businessID);
     return res.json(business);

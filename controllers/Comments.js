@@ -13,15 +13,22 @@ async function getAllComments(req, res) {
 async function getPostComments(req, res) {
   const post_id = parseInt(req.params["post_id"], 10);
   try {
-    let comments = await db.any(
-      "SELECT * FROM comments WHERE post_id=$1",
-      post_id
-    );
+    // let comments = await db.any(
+    //   "SELECT * FROM comments WHERE post_id=$1",
+    //   post_id
+    // );
 
-    res["post_id"] = post_id;
-    return res.status(200).json(comments);
+    const commentsEnhanced = await db.any(
+      `SELECT * 
+      FROM comments as c 
+      WHERE post_id=${post_id} 
+      JOIN businesses as b 
+      ON (c.business_id = b.id)`
+    , post_id);
+
+    return res.status(200).json(commentsEnhanced);
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).send({message: err.message});
   }
 }
 
