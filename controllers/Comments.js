@@ -20,7 +20,7 @@ async function getPostComments(req, res) {
     console.log("comments")
 
     const commentsEnhanced = await db.any(
-      `SELECT * 
+      `SELECT comments.id, comments.content, businesses.business_name, businesses.first_name, businesses.last_name, businesses.logo 
       FROM comments 
       FULL OUTER JOIN businesses 
       ON comments.business_id = businesses.id 
